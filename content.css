@@ -1,0 +1,499 @@
+/* ==========================================================================
+   WhatsApp Privacy Blur - Content Injection Styles (Dual-Layer Robustness)
+   ========================================================================== */
+
+:root {
+  --wa-blur-amount: 8px;
+  --wa-blur-transition: filter 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --wa-avatar-blur: var(--wa-blur-amount);
+}
+
+/* Global Switch Override: If privacy mode is globally disabled, do not apply any rules.
+   If force-reveal is enabled (e.g. Alt key held down), do not apply any rules. */
+:root:not(.wa-privacy-enabled),
+.wa-force-reveal,
+.wa-force-reveal * {
+  filter: none !important;
+}
+
+/* ==========================================================================
+   1. Profile Pictures (Avatars)
+   ========================================================================== */
+
+/* --- 1.1 Blur Selectors for Profile Pictures --- */
+
+/* A. Primary Layer: Highly Stable Test & Automation Attributes (Do not change across updates) */
+.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-avatar"] img,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="chat-avatar"] img,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="avatar"] img,
+.wa-privacy-enabled.wa-blur-avatars span[data-testid="avatar"] img,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="chat-list-header"] img,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="settings-side-rail"] img,
+
+/* B. Primary Layer: Stable Structural & Semantic Containers */
+.wa-privacy-enabled.wa-blur-avatars [class*="avatar"] img,
+.wa-privacy-enabled.wa-blur-avatars [class*="avatar"] div[style*="background-image"],
+.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-frame-container"] > div:first-child img,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-frame-container"] > div:first-child div[style*="background-image"],
+
+/* C. Secondary Layer: Obfuscated Dynamic Classes (Immediate Session Fallback) */
+/* 1. Sidebar self-profile picture */
+.wa-privacy-enabled.wa-blur-avatars img.x1n2onr6.xt8t1vi.x1xc408v.x129tdwq.x15urzxu,
+.wa-privacy-enabled.wa-blur-avatars div.x1n2onr6.xt8t1vi.x1xc408v.x129tdwq.x15urzxu[style*="background-image"],
+.wa-privacy-enabled.wa-blur-avatars .x1n2onr6.xt8t1vi.x1xc408v.x129tdwq.x15urzxu img,
+/* 2. Chat self & contact/group profile pictures */
+.wa-privacy-enabled.wa-blur-avatars img.x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e,
+.wa-privacy-enabled.wa-blur-avatars div.x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e[style*="background-image"],
+.wa-privacy-enabled.wa-blur-avatars .x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e img,
+.wa-privacy-enabled.wa-blur-avatars .x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e div[style*="background-image"],
+
+/* D. Top Header, Info Drawers, and Conversation Header Avatars */
+.wa-privacy-enabled.wa-blur-avatars [data-testid="conversation-header"] [data-testid="cell-avatar"] img,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="conversation-header"] [data-testid="chat-avatar"] img,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="conversation-header"] [data-testid="avatar"] img,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="contact-info-drawer"] [data-testid="avatar"] img,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="profile-drawer"] [data-testid="avatar"] img {
+  filter: blur(var(--wa-avatar-blur)) !important;
+  transition: var(--wa-blur-transition) !important;
+  will-change: filter;
+  transform: translateZ(0);
+}
+
+
+/* --- 1.2 Reveal Profile Pictures on Hover (Symmetric specificity pairing & CSS Variable Inheritance) --- */
+
+/* A. Dynamic Variable Inheritance Layer: Triggers unblur when hovering over any parent row, cell, drawer, sidebar or header */
+.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-frame-container"]:hover,
+.wa-privacy-enabled.wa-blur-avatars [role="row"]:hover,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-avatar"]:hover,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="chat-avatar"]:hover,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="avatar"]:hover,
+.wa-privacy-enabled.wa-blur-avatars span[data-testid="avatar"]:hover,
+.wa-privacy-enabled.wa-blur-avatars [class*="avatar"]:hover,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="chat-list-header"]:hover,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="settings-side-rail"]:hover,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="conversation-header"]:hover,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="contact-info-drawer"]:hover,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="profile-drawer"]:hover,
+.wa-privacy-enabled.wa-blur-avatars [class*="drawer"]:hover,
+.wa-privacy-enabled.wa-blur-avatars [class*="sidebar-right"]:hover,
+.wa-privacy-enabled.wa-blur-avatars [class*="cell"]:hover,
+.wa-privacy-enabled.wa-blur-avatars img:hover,
+.wa-privacy-enabled.wa-blur-avatars div[style*="background-image"]:hover {
+  --wa-avatar-blur: 0px !important;
+}
+
+/* B. Strict Specificity-Symmetric Filter Override Layer (Failsafe) */
+.wa-privacy-enabled.wa-blur-avatars img.x1n2onr6.xt8t1vi.x1xc408v.x129tdwq.x15urzxu:hover,
+.wa-privacy-enabled.wa-blur-avatars div.x1n2onr6.xt8t1vi.x1xc408v.x129tdwq.x15urzxu:hover,
+.wa-privacy-enabled.wa-blur-avatars .x1n2onr6.xt8t1vi.x1xc408v.x129tdwq.x15urzxu:hover img,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="chat-list-header"] img:hover,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="settings-side-rail"] img:hover,
+
+/* Direct Hover reveals for contact / group avatars */
+.wa-privacy-enabled.wa-blur-avatars img.x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e:hover,
+.wa-privacy-enabled.wa-blur-avatars div.x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e:hover,
+.wa-privacy-enabled.wa-blur-avatars .x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e:hover img,
+.wa-privacy-enabled.wa-blur-avatars .x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e:hover div[style*="background-image"],
+.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-avatar"]:hover img,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="chat-avatar"]:hover img,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="avatar"]:hover img,
+.wa-privacy-enabled.wa-blur-avatars span[data-testid="avatar"]:hover img,
+.wa-privacy-enabled.wa-blur-avatars [class*="avatar"]:hover img,
+.wa-privacy-enabled.wa-blur-avatars [class*="avatar"]:hover div[style*="background-image"],
+
+/* Row-Level and Frame-Level Reveals for chat list items */
+.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-frame-container"]:hover img,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-frame-container"]:hover div[style*="background-image"],
+.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-frame-container"]:hover img.x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-frame-container"]:hover div.x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-frame-container"]:hover .x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e img,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-frame-container"]:hover .x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e div[style*="background-image"],
+.wa-privacy-enabled.wa-blur-avatars [role="row"]:hover img.x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e,
+.wa-privacy-enabled.wa-blur-avatars [role="row"]:hover [data-testid="cell-avatar"] img,
+.wa-privacy-enabled.wa-blur-avatars [role="row"]:hover [data-testid="chat-avatar"] img,
+.wa-privacy-enabled.wa-blur-avatars [role="row"]:hover [data-testid="avatar"] img,
+.wa-privacy-enabled.wa-blur-avatars [role="row"]:hover .x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e img,
+.wa-privacy-enabled.wa-blur-avatars [role="row"]:hover .x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e div[style*="background-image"],
+.wa-privacy-enabled.wa-blur-avatars [class*="cell"]:hover img.x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e,
+.wa-privacy-enabled.wa-blur-avatars [class*="cell"]:hover [data-testid="cell-avatar"] img,
+
+/* Top Header, Conversation Header, and Drawer reveals on hover */
+.wa-privacy-enabled.wa-blur-avatars [data-testid="conversation-header"]:hover img,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="conversation-header"]:hover img.x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="conversation-header"]:hover div[style*="background-image"],
+.wa-privacy-enabled.wa-blur-avatars [data-testid="conversation-header"]:hover .x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e div[style*="background-image"],
+.wa-privacy-enabled.wa-blur-avatars [data-testid="contact-info-drawer"]:hover img,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="profile-drawer"]:hover img,
+.wa-privacy-enabled.wa-blur-avatars [class*="drawer"]:hover img,
+.wa-privacy-enabled.wa-blur-avatars [class*="sidebar-right"]:hover img {
+  filter: blur(0px) !important;
+}
+
+
+/* --- 1.3 Exclude Generic Placeholders & Navigation Icons from Blurring (Failsafe Override) --- */
+.wa-privacy-enabled.wa-blur-avatars img[src*="rsrc.php"],
+.wa-privacy-enabled.wa-blur-avatars img[src^="data:"],
+.wa-privacy-enabled.wa-blur-avatars img[src*="default"],
+.wa-privacy-enabled.wa-blur-avatars div[style*="background-image"][style*="rsrc.php"],
+.wa-privacy-enabled.wa-blur-avatars div[style*="background-image"][style*="data:"],
+.wa-privacy-enabled.wa-blur-avatars div[style*="background-image"][style*="default"],
+.wa-privacy-enabled.wa-blur-avatars [class*="avatar"] img[src*="rsrc.php"],
+.wa-privacy-enabled.wa-blur-avatars [class*="avatar"] img[src^="data:"],
+.wa-privacy-enabled.wa-blur-avatars [class*="avatar"] img[src*="default"],
+.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-avatar"] img[src*="rsrc.php"],
+.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-avatar"] img[src^="data:"],
+.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-avatar"] img[src*="default"],
+.wa-privacy-enabled.wa-blur-avatars [data-testid="chat-avatar"] img[src*="rsrc.php"],
+.wa-privacy-enabled.wa-blur-avatars [data-testid="chat-avatar"] img[src^="data:"],
+.wa-privacy-enabled.wa-blur-avatars [data-testid="chat-avatar"] img[src*="default"],
+.wa-privacy-enabled.wa-blur-avatars [data-testid="avatar"] img[src*="rsrc.php"],
+.wa-privacy-enabled.wa-blur-avatars [data-testid="avatar"] img[src^="data:"],
+.wa-privacy-enabled.wa-blur-avatars [data-testid="avatar"] img[src*="default"],
+.wa-privacy-enabled.wa-blur-avatars [data-testid*="rail"] img,
+.wa-privacy-enabled.wa-blur-avatars [class*="rail"] img,
+.wa-privacy-enabled.wa-blur-avatars [role="navigation"] img,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="settings-side-rail"] img,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="chat-list-header"] img {
+  filter: none !important;
+}
+
+
+/* ==========================================================================
+   2. Contact / Group Names
+   ========================================================================== */
+
+/* --- 2.1 Blur Selectors for Names --- */
+
+/* A. Primary Layer: Highly Stable Automation & Test Attributes */
+.wa-privacy-enabled.wa-blur-names [data-testid="cell-contact-title"],
+.wa-privacy-enabled.wa-blur-names [data-testid="chat-title"],
+.wa-privacy-enabled.wa-blur-names [data-testid="chat-title"] span,
+.wa-privacy-enabled.wa-blur-names span[data-testid="cell-contact-title"],
+.wa-privacy-enabled.wa-blur-names div[data-testid="chat-title"],
+.wa-privacy-enabled.wa-blur-names div[data-testid="chat-title"] span,
+
+/* B. Primary Layer: Stable Structural Fallbacks */
+.wa-privacy-enabled.wa-blur-names span[dir="auto"][title]:not([title="Archived"]):not([title*="Archive"]):not([title="WhatsApp"]),
+.wa-privacy-enabled.wa-blur-names span[class*="title"][title]:not([title="Archived"]):not([title*="Archive"]):not([title="WhatsApp"]),
+
+/* C. Secondary Layer: Obfuscated Dynamic Classes (Immediate Session Fallback) */
+.wa-privacy-enabled.wa-blur-names .x1iyjqo2.x6ikm8r.x10wlt62.x1n2onr6.xlyipyv.xuxw1ft.x1rg5ohu.x1jchvi3.xjb2p0i.xo1l8bm.x17mssa0.x1ic7a3i._ao3e,
+.wa-privacy-enabled.wa-blur-names span.x1iyjqo2.x6ikm8r.x10wlt62.x1n2onr6.xlyipyv.xuxw1ft.x1rg5ohu.x1jchvi3.xjb2p0i.xo1l8bm.x17mssa0.x1ic7a3i._ao3e,
+.wa-privacy-enabled.wa-blur-names div.x1iyjqo2.x6ikm8r.x10wlt62.x1n2onr6.xlyipyv.xuxw1ft.x1rg5ohu.x1jchvi3.xjb2p0i.xo1l8bm.x17mssa0.x1ic7a3i._ao3e,
+
+/* D. Conversation header and right drawers */
+.wa-privacy-enabled.wa-blur-names [data-testid="conversation-header"] [data-testid="conversation-info-header"] [data-testid="cell-contact-title"],
+.wa-privacy-enabled.wa-blur-names [data-testid="conversation-header"] [data-testid="conversation-info-header"] [data-testid="chat-title"],
+.wa-privacy-enabled.wa-blur-names [data-testid="conversation-header"] [data-testid="conversation-info-header"] span,
+.wa-privacy-enabled.wa-blur-names [data-testid="conversation-header"] [data-testid="conversation-info-header"] [dir="auto"],
+.wa-privacy-enabled.wa-blur-names [data-testid="contact-info-drawer"] [data-testid="contact-info-title"],
+.wa-privacy-enabled.wa-blur-names [data-testid="contact-info-drawer"] [data-testid="contact-name"],
+.wa-privacy-enabled.wa-blur-names [data-testid="profile-drawer"] [data-testid="profile-name"] {
+  filter: blur(var(--wa-blur-amount)) !important;
+  transition: var(--wa-blur-transition) !important;
+  will-change: filter;
+  transform: translateZ(0);
+}
+
+
+/* --- 2.2 Reveal Contact / Group Names on Hover (Symmetric specificity overrides) --- */
+
+/* A. Direct Element Hover */
+.wa-privacy-enabled.wa-blur-names [data-testid="cell-contact-title"]:hover,
+.wa-privacy-enabled.wa-blur-names [data-testid="chat-title"]:hover,
+.wa-privacy-enabled.wa-blur-names [data-testid="chat-title"] span:hover,
+.wa-privacy-enabled.wa-blur-names span[data-testid="cell-contact-title"]:hover,
+.wa-privacy-enabled.wa-blur-names div[data-testid="chat-title"]:hover,
+.wa-privacy-enabled.wa-blur-names div[data-testid="chat-title"] span:hover,
+.wa-privacy-enabled.wa-blur-names span[dir="auto"][title]:hover,
+.wa-privacy-enabled.wa-blur-names .x1iyjqo2.x6ikm8r.x10wlt62.x1n2onr6.xlyipyv.xuxw1ft.x1rg5ohu.x1jchvi3.xjb2p0i.xo1l8bm.x17mssa0.x1ic7a3i._ao3e:hover,
+.wa-privacy-enabled.wa-blur-names span.x1iyjqo2.x6ikm8r.x10wlt62.x1n2onr6.xlyipyv.xuxw1ft.x1rg5ohu.x1jchvi3.xjb2p0i.xo1l8bm.x17mssa0.x1ic7a3i._ao3e:hover,
+.wa-privacy-enabled.wa-blur-names div.x1iyjqo2.x6ikm8r.x10wlt62.x1n2onr6.xlyipyv.xuxw1ft.x1rg5ohu.x1jchvi3.xjb2p0i.xo1l8bm.x17mssa0.x1ic7a3i._ao3e:hover,
+
+/* B. Card & Row-Level Hover reveals for chat list items (No ID selectors used to ensure clean win) */
+.wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-container"]:hover [data-testid="cell-contact-title"],
+.wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-container"]:hover [data-testid="chat-title"],
+.wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-container"]:hover [data-testid="chat-title"] span,
+.wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-container"]:hover span[data-testid="cell-contact-title"],
+.wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-container"]:hover div[data-testid="chat-title"],
+.wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-container"]:hover div[data-testid="chat-title"] span,
+.wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-container"]:hover span[dir="auto"][title],
+.wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-container"]:hover .x1iyjqo2.x6ikm8r.x10wlt62.x1n2onr6.xlyipyv.xuxw1ft.x1rg5ohu.x1jchvi3.xjb2p0i.xo1l8bm.x17mssa0.x1ic7a3i._ao3e,
+.wa-privacy-enabled.wa-blur-names [role="row"]:hover [data-testid="cell-contact-title"],
+.wa-privacy-enabled.wa-blur-names [role="row"]:hover .x1iyjqo2.x6ikm8r.x10wlt62.x1n2onr6.xlyipyv.xuxw1ft.x1rg5ohu.x1jchvi3.xjb2p0i.xo1l8bm.x17mssa0.x1ic7a3i._ao3e,
+.wa-privacy-enabled.wa-blur-names [class*="cell"]:hover [data-testid="cell-contact-title"],
+.wa-privacy-enabled.wa-blur-names [class*="cell"]:hover .x1iyjqo2.x6ikm8r.x10wlt62.x1n2onr6.xlyipyv.xuxw1ft.x1rg5ohu.x1jchvi3.xjb2p0i.xo1l8bm.x17mssa0.x1ic7a3i._ao3e,
+
+/* C. Conversation header and right drawers reveals on hover */
+.wa-privacy-enabled.wa-blur-names [data-testid="conversation-header"]:hover [data-testid="conversation-info-header"] [data-testid="cell-contact-title"],
+.wa-privacy-enabled.wa-blur-names [data-testid="conversation-header"]:hover [data-testid="conversation-info-header"] [data-testid="chat-title"],
+.wa-privacy-enabled.wa-blur-names [data-testid="conversation-header"]:hover [data-testid="conversation-info-header"] span,
+.wa-privacy-enabled.wa-blur-names [data-testid="conversation-header"]:hover [data-testid="conversation-info-header"] [dir="auto"],
+.wa-privacy-enabled.wa-blur-names [data-testid="contact-info-drawer"]:hover [data-testid="contact-info-title"],
+.wa-privacy-enabled.wa-blur-names [data-testid="contact-info-drawer"]:hover [data-testid="contact-name"],
+.wa-privacy-enabled.wa-blur-names [data-testid="profile-drawer"]:hover [data-testid="profile-name"],
+.wa-privacy-enabled.wa-blur-names [class*="drawer"]:hover [data-testid="contact-name"],
+.wa-privacy-enabled.wa-blur-names [class*="sidebar-right"]:hover [data-testid="contact-name"] {
+  filter: blur(0px) !important;
+}
+
+
+/* ==========================================================================
+   3. Message Previews (Chat List)
+   ========================================================================== */
+
+/* --- 3.1 Blur Selectors for Message Previews --- */
+
+/* A. Primary Layer: Highly Stable Test & Automation Attributes (Universal matching for both Group and Personal chats) */
+/* 1. Target the text span or element inside last-msg directly */
+.wa-privacy-enabled.wa-blur-previews [data-testid="last-msg"] span[dir],
+.wa-privacy-enabled.wa-blur-previews [data-testid="last-msg"] [dir],
+/* 2. Target the last-msg container itself ONLY if it does not contain nested spans (prevents double-blur) */
+.wa-privacy-enabled.wa-blur-previews [data-testid="last-msg"]:not(:has(span)),
+.wa-privacy-enabled.wa-blur-previews span[data-testid="last-msg"]:not(:has(span)),
+/* 3. Target leaf spans inside last-msg that are NOT status checkmarks or indicators */
+.wa-privacy-enabled.wa-blur-previews [data-testid="last-msg"] span:not([data-testid*="checkmark"]):not([data-testid*="status"]):not([data-icon*="check"]):not([class*="check"]):not([class*="status"]):not([data-testid="last-msg"]),
+/* 4. Legacy and general preview text selectors */
+.wa-privacy-enabled.wa-blur-previews span[data-testid="cell-contact-msg-text"],
+.wa-privacy-enabled.wa-blur-previews div[data-testid="cell-contact-msg-text"],
+.wa-privacy-enabled.wa-blur-previews [data-testid="cell-contact-msg-text"],
+
+/* B. Primary Layer: Stable Structural Sub-Spans under Chat Cell Container (Targeting ONLY the text-containing element) */
+.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"] span[data-testid="last-msg"] span[dir],
+.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"] span[data-testid="last-msg"] [dir],
+.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"] span[data-testid="last-msg"]:not(:has(span)),
+.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"] > div:nth-child(2) > div:nth-child(2) span[dir],
+.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"] > div:nth-child(2) > div:nth-child(2) [dir],
+
+/* C. Secondary Layer: Obfuscated Dynamic Classes (Targeting ONLY the text-containing element) */
+.wa-privacy-enabled.wa-blur-previews .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt span[dir],
+.wa-privacy-enabled.wa-blur-previews .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt [dir],
+.wa-privacy-enabled.wa-blur-previews .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt span:not([data-testid="last-msg"]):not([data-testid="cell-contact-msg"]) {
+  filter: blur(var(--wa-blur-amount)) !important;
+  transition: var(--wa-blur-transition) !important;
+  will-change: filter;
+  transform: translateZ(0);
+}
+
+/* --- 3.2 Failsafes to Protect Indicators from Blurring (Mute, Pin, Double-Checkmarks, Timestamps) --- */
+.wa-privacy-enabled.wa-blur-previews [data-testid*="checkmark"],
+.wa-privacy-enabled.wa-blur-previews [data-testid*="status"],
+.wa-privacy-enabled.wa-blur-previews [data-testid*="double-checkmark"],
+.wa-privacy-enabled.wa-blur-previews [data-icon*="check"],
+.wa-privacy-enabled.wa-blur-previews svg[class*="check"],
+.wa-privacy-enabled.wa-blur-previews [class*="unread"],
+.wa-privacy-enabled.wa-blur-previews [class*="badge"],
+.wa-privacy-enabled.wa-blur-previews [data-testid*="badge"],
+.wa-privacy-enabled.wa-blur-previews [data-icon*="mute"],
+.wa-privacy-enabled.wa-blur-previews [data-icon*="pin"],
+.wa-privacy-enabled.wa-blur-previews [data-testid*="mute"],
+.wa-privacy-enabled.wa-blur-previews [data-testid*="pin"],
+.wa-privacy-enabled.wa-blur-previews [class*="time"],
+.wa-privacy-enabled.wa-blur-previews span[class*="time"] {
+  filter: none !important;
+}
+
+
+/* --- 3.3 Reveal Message Previews on Hover (Symmetric specificity pairing overrides) --- */
+
+/* A. Direct Element Hover */
+.wa-privacy-enabled.wa-blur-previews [data-testid="last-msg"] span[dir]:hover,
+.wa-privacy-enabled.wa-blur-previews [data-testid="last-msg"] [dir]:hover,
+.wa-privacy-enabled.wa-blur-previews [data-testid="last-msg"]:not(:has(span)):hover,
+.wa-privacy-enabled.wa-blur-previews span[data-testid="last-msg"]:not(:has(span)):hover,
+.wa-privacy-enabled.wa-blur-previews [data-testid="last-msg"] span:not([data-testid*="checkmark"]):not([data-testid*="status"]):not([data-icon*="check"]):not([class*="check"]):not([class*="status"]):not([data-testid="last-msg"]):hover,
+.wa-privacy-enabled.wa-blur-previews span[data-testid="cell-contact-msg-text"]:hover,
+.wa-privacy-enabled.wa-blur-previews div[data-testid="cell-contact-msg-text"]:hover,
+.wa-privacy-enabled.wa-blur-previews [data-testid="cell-contact-msg-text"]:hover,
+.wa-privacy-enabled.wa-blur-previews .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt span[dir]:hover,
+.wa-privacy-enabled.wa-blur-previews .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt [dir]:hover,
+.wa-privacy-enabled.wa-blur-previews .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt span:not([data-testid="last-msg"]):not([data-testid="cell-contact-msg"]):hover,
+
+/* B. Card & Row-Level Hover reveals for chat list items (No ID selectors used to ensure clean win) */
+.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"]:hover [data-testid="last-msg"] span[dir],
+.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"]:hover [data-testid="last-msg"] [dir],
+.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"]:hover [data-testid="last-msg"]:not(:has(span)),
+.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"]:hover span[data-testid="last-msg"]:not(:has(span)),
+.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"]:hover [data-testid="last-msg"] span:not([data-testid*="checkmark"]):not([data-testid*="status"]):not([data-icon*="check"]):not([class*="check"]):not([class*="status"]):not([data-testid="last-msg"]),
+.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"]:hover span[data-testid="cell-contact-msg-text"],
+.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"]:hover [data-testid="cell-contact-msg-text"],
+.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"]:hover .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt span[dir],
+.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"]:hover .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt [dir],
+.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"]:hover .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt span:not([data-testid="last-msg"]):not([data-testid="cell-contact-msg"]),
+.wa-privacy-enabled.wa-blur-previews [role="row"]:hover [data-testid="last-msg"] span[dir],
+.wa-privacy-enabled.wa-blur-previews [role="row"]:hover [data-testid="last-msg"] [dir],
+.wa-privacy-enabled.wa-blur-previews [role="row"]:hover [data-testid="last-msg"]:not(:has(span)),
+.wa-privacy-enabled.wa-blur-previews [role="row"]:hover span[data-testid="last-msg"]:not(:has(span)),
+.wa-privacy-enabled.wa-blur-previews [role="row"]:hover [data-testid="last-msg"] span:not([data-testid*="checkmark"]):not([data-testid*="status"]):not([data-icon*="check"]):not([class*="check"]):not([class*="status"]):not([data-testid="last-msg"]),
+.wa-privacy-enabled.wa-blur-previews [role="row"]:hover span[data-testid="cell-contact-msg-text"],
+.wa-privacy-enabled.wa-blur-previews [role="row"]:hover .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt span[dir],
+.wa-privacy-enabled.wa-blur-previews [role="row"]:hover .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt [dir],
+.wa-privacy-enabled.wa-blur-previews [role="row"]:hover .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt span:not([data-testid="last-msg"]):not([data-testid="cell-contact-msg"]),
+.wa-privacy-enabled.wa-blur-previews [class*="cell"]:hover [data-testid="last-msg"] span[dir],
+.wa-privacy-enabled.wa-blur-previews [class*="cell"]:hover [data-testid="last-msg"] [dir],
+.wa-privacy-enabled.wa-blur-previews [class*="cell"]:hover [data-testid="last-msg"]:not(:has(span)),
+.wa-privacy-enabled.wa-blur-previews [class*="cell"]:hover span[data-testid="last-msg"]:not(:has(span)),
+.wa-privacy-enabled.wa-blur-previews [class*="cell"]:hover [data-testid="last-msg"] span:not([data-testid*="checkmark"]):not([data-testid*="status"]):not([data-icon*="check"]):not([class*="check"]):not([class*="status"]):not([data-testid="last-msg"]),
+.wa-privacy-enabled.wa-blur-previews [class*="cell"]:hover span[data-testid="cell-contact-msg-text"],
+.wa-privacy-enabled.wa-blur-previews [class*="cell"]:hover .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt span[dir],
+.wa-privacy-enabled.wa-blur-previews [class*="cell"]:hover .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt [dir],
+.wa-privacy-enabled.wa-blur-previews [class*="cell"]:hover .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt span:not([data-testid="last-msg"]):not([data-testid="cell-contact-msg"]) {
+  filter: blur(0px) !important;
+}
+
+
+/* ==========================================================================
+   4. Chat Messages (Bubble Contents) & Compose Input (Ready for Step-by-Step)
+   ========================================================================== */
+
+/* --- 4.1 Text Chats (.wa-blur-text) --- */
+/* Temporarily disabled: Ready to rebuild step-by-step as requested */
+/*
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] .copyable-text,
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] .selectable-text,
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] span.selectable-text,
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [class*="copyable-text"],
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [class*="selectable-text"],
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"] span:not([data-testid*="checkmark"]):not([class*="time"]):not([class*="avatar"]),
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [class*="message-"] span:not([data-testid*="checkmark"]):not([class*="time"]):not([class*="avatar"]),
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] div[class*="message-text"],
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] div[class*="msg-text"],
+.wa-privacy-enabled.wa-blur-text #main .copyable-text,
+.wa-privacy-enabled.wa-blur-text #main .selectable-text,
+.wa-privacy-enabled.wa-blur-text #main span.selectable-text,
+.wa-privacy-enabled.wa-blur-text #main [class*="copyable-text"],
+.wa-privacy-enabled.wa-blur-text #main [class*="selectable-text"],
+.wa-privacy-enabled.wa-blur-text #main div[class*="message-text"],
+.wa-privacy-enabled.wa-blur-text #main div[class*="msg-text"] {
+  filter: blur(var(--wa-blur-amount)) !important;
+  transition: var(--wa-blur-transition) !important;
+  will-change: filter;
+  transform: translateZ(0);
+}
+*/
+
+/*
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover .copyable-text,
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover .selectable-text,
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover [class*="copyable-text"],
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover [class*="selectable-text"],
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover span:not([data-testid*="checkmark"]):not([class*="time"]),
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [class*="message-"]:hover span:not([data-testid*="checkmark"]):not([class*="time"]),
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover span.selectable-text,
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover div[class*="message-text"],
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover div[class*="msg-text"],
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] div.message-in:hover span.selectable-text,
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] div.message-out:hover span.selectable-text,
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] span.selectable-text:hover,
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] div[class*="message-text"]:hover,
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] div[class*="msg-text"]:hover,
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] .copyable-text:hover,
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] .selectable-text:hover,
+.wa-privacy-enabled.wa-blur-text [data-testid="msg-container"]:hover span.selectable-text,
+.wa-privacy-enabled.wa-blur-text div.message-in:hover span.selectable-text,
+.wa-privacy-enabled.wa-blur-text div.message-out:hover span.selectable-text,
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover,
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] div.message-in:hover,
+.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] div.message-out:hover,
+.wa-privacy-enabled.wa-blur-text div[data-testid="msg-container"]:hover,
+.wa-privacy-enabled.wa-blur-text div.message-in:hover,
+.wa-privacy-enabled.wa-blur-text div.message-out:hover {
+  filter: blur(0px) !important;
+}
+*/
+
+
+/* --- 4.2 Media Chats (.wa-blur-media) --- */
+/* Temporarily disabled: Ready to rebuild step-by-step as requested */
+/*
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] img:not([data-testid*="checkmark"]):not([class*="avatar"]),
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] video,
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] audio,
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] canvas,
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [class*="visual"],
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid*="image"],
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid*="video"],
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid*="audio"],
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid*="voice-note"],
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid*="sticker"],
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid*="link-preview"],
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid*="document"],
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid*="quoted-message"],
+.wa-privacy-enabled.wa-blur-media #main img:not([data-testid*="checkmark"]):not([class*="avatar"]),
+.wa-privacy-enabled.wa-blur-media #main video,
+.wa-privacy-enabled.wa-blur-media #main audio {
+  filter: blur(var(--wa-blur-amount)) !important;
+  transition: var(--wa-blur-transition) !important;
+  will-change: filter;
+  transform: translateZ(0);
+}
+*/
+
+/*
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover img,
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover video,
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover audio,
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover canvas,
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover [class*="visual"],
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover [data-testid*="image"],
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover [data-testid*="video"],
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover [data-testid*="audio"],
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover [data-testid*="voice-note"],
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover [data-testid*="sticker"],
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover [data-testid*="link-preview"],
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover [data-testid*="document"],
+.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover [data-testid*="quoted-message"],
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"]:hover img,
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"]:hover video,
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"]:hover audio {
+  filter: blur(0px) !important;
+}
+*/
+
+
+/* --- 4.3 Compose / Input Area (.wa-blur-input) --- */
+/* Temporarily disabled: Ready to rebuild step-by-step as requested */
+/*
+.wa-privacy-enabled.wa-blur-input #main footer div[contenteditable="true"],
+.wa-privacy-enabled.wa-blur-input [data-testid="conversation-panel-wrapper"] footer div[contenteditable="true"],
+.wa-privacy-enabled.wa-blur-input [data-testid="rich-text-input"],
+.wa-privacy-enabled.wa-blur-input [data-testid="compose-input"],
+.wa-privacy-enabled.wa-blur-input div.lexical-rich-text-input,
+.wa-privacy-enabled.wa-blur-input div[class*="rich-text-input"],
+.wa-privacy-enabled.wa-blur-input div[class*="compose-input"] {
+  opacity: 0.3 !important;
+  transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+*/
+
+/*
+.wa-privacy-enabled.wa-blur-input #main footer div[contenteditable="true"]:focus,
+.wa-privacy-enabled.wa-blur-input #main footer div[contenteditable="true"]:hover,
+.wa-privacy-enabled.wa-blur-input [data-testid="conversation-panel-wrapper"] footer div[contenteditable="true"]:focus,
+.wa-privacy-enabled.wa-blur-input [data-testid="conversation-panel-wrapper"] footer div[contenteditable="true"]:hover,
+.wa-privacy-enabled.wa-blur-input [data-testid="rich-text-input"]:focus,
+.wa-privacy-enabled.wa-blur-input [data-testid="rich-text-input"]:hover,
+.wa-privacy-enabled.wa-blur-input [data-testid="compose-input"]:focus,
+.wa-privacy-enabled.wa-blur-input [data-testid="compose-input"]:hover,
+.wa-privacy-enabled.wa-blur-input div.lexical-rich-text-input:focus,
+.wa-privacy-enabled.wa-blur-input div.lexical-rich-text-input:hover,
+.wa-privacy-enabled.wa-blur-input div[class*="rich-text-input"]:focus,
+.wa-privacy-enabled.wa-blur-input div[class*="rich-text-input"]:hover,
+.wa-privacy-enabled.wa-blur-input div[class*="compose-input"]:focus,
+.wa-privacy-enabled.wa-blur-input div[class*="compose-input"]:hover {
+  opacity: 1 !important;
+}
+*/
+
+/*
+.wa-force-reveal #main footer div[contenteditable="true"],
+.wa-force-reveal [data-testid="conversation-panel-wrapper"] footer div[contenteditable="true"],
+.wa-force-reveal [data-testid="rich-text-input"],
+.wa-force-reveal [data-testid="compose-input"],
+.wa-force-reveal div.lexical-rich-text-input,
+.wa-force-reveal div[class*="rich-text-input"],
+.wa-force-reveal div[class*="compose-input"] {
+  opacity: 1 !important;
+}
+*/

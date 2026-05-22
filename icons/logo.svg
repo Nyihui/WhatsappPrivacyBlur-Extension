@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00b4db" />
+      <stop offset="100%" stop-color="#0083b0" />
+    </linearGradient>
+    
+    <!-- Shield/Privacy Arc Gradient -->
+    <linearGradient id="shieldGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#11998e" />
+      <stop offset="100%" stop-color="#38ef7d" />
+    </linearGradient>
+
+    <!-- Glassmorphic Overlay -->
+    <linearGradient id="glassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.05" />
+    </linearGradient>
+
+    <!-- Drop Shadows -->
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.3" />
+    </filter>
+  </defs>
+
+  <!-- Outer Glowing Base -->
+  <rect x="8" y="8" width="112" height="112" rx="32" fill="url(#bgGrad)" filter="url(#shadow)" />
+
+  <!-- WhatsApp-like Speech Bubble Tail -->
+  <path d="M 28 92 L 20 108 L 40 104 C 40 104 46 107 54 108 C 28 108 28 92 28 92 Z" fill="#0083b0" />
+
+  <!-- Shield Shape (Symbolizing Security/Privacy) -->
+  <path d="M 64 26 C 74 26 88 32 94 36 C 94 62 82 86 64 96 C 46 86 34 62 34 36 C 40 32 54 26 64 26 Z" fill="url(#shieldGrad)" opacity="0.9" />
+
+  <!-- Glassmorphic Mask Ring -->
+  <circle cx="64" cy="61" r="24" fill="url(#glassGrad)" stroke="#ffffff" stroke-width="2" stroke-opacity="0.4" />
+
+  <!-- Stylized Eye (Symbolizing Censorship/Privacy) -->
+  <!-- Upper & Lower Eyelids -->
+  <path d="M 44 61 C 52 50 76 50 84 61 C 76 72 52 72 44 61 Z" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" />
+  
+  <!-- Blurred Iris (Representing the blur feature) -->
+  <circle cx="64" cy="61" r="10" fill="#ffffff" opacity="0.4" filter="blur(1px)" />
+  
+  <!-- Pupils & Lock Highlight -->
+  <circle cx="64" cy="61" r="5" fill="#ffffff" />
+  
+  <!-- Slash across the eye (Signifying no peeking / blur overlay) -->
+  <line x1="42" y1="78" x2="86" y2="44" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" filter="url(#shadow)" />
+</svg>
