@@ -11,7 +11,8 @@ const DEFAULT_SETTINGS = {
   blurPreviews: true,
   blurTextChats: true,
   blurMediaChats: true,
-  blurInputChats: true
+  blurInputChats: true,
+  inputOpacity: 30
 };
 
 /**
@@ -25,6 +26,10 @@ function applySettings(settings) {
   // 1. Apply the custom blur intensity CSS variable
   const blurPx = settings.blurAmount !== undefined ? settings.blurAmount : DEFAULT_SETTINGS.blurAmount;
   root.style.setProperty('--wa-blur-amount', `${blurPx}px`);
+
+  // 1b. Apply the compose input opacity CSS variable (stored as 0-100 integer, converted to 0.0-1.0)
+  const opacityPct = settings.inputOpacity !== undefined ? settings.inputOpacity : DEFAULT_SETTINGS.inputOpacity;
+  root.style.setProperty('--wa-input-opacity', (opacityPct / 100).toFixed(2));
 
   // 2. Toggle the global privacy state
   const isEnabled = settings.enabled !== undefined ? settings.enabled : DEFAULT_SETTINGS.enabled;
@@ -77,27 +82,4 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
       applySettings(settings);
     });
   }
-});
-
-/**
- * Temporary master reveal keybind:
- * Holding down the "Alt" key (or another modifier) will temporarily reveal everything.
- * Releasing the key will restore the blurs.
- */
-window.addEventListener('keydown', (e) => {
-  // If user presses Alt key, temporarily lift all blurs
-  if (e.key === 'Alt') {
-    document.documentElement.classList.add('wa-force-reveal');
-  }
-});
-
-window.addEventListener('keyup', (e) => {
-  if (e.key === 'Alt') {
-    document.documentElement.classList.remove('wa-force-reveal');
-  }
-});
-
-// Fallback: remove force-reveal if window loses focus to prevent stuck state
-window.addEventListener('blur', () => {
-  document.documentElement.classList.remove('wa-force-reveal');
 });

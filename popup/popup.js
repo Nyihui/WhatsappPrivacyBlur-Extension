@@ -11,7 +11,8 @@ const DEFAULT_SETTINGS = {
   blurPreviews: true,
   blurTextChats: true,
   blurMediaChats: true,
-  blurInputChats: true
+  blurInputChats: true,
+  inputOpacity: 30
 };
 
 // UI Elements
@@ -27,6 +28,18 @@ const togglePreviews = document.getElementById('toggle-previews');
 const toggleTextChats = document.getElementById('toggle-text-chats');
 const toggleMediaChats = document.getElementById('toggle-media-chats');
 const toggleInputChats = document.getElementById('toggle-input-chats');
+
+// Compose Input opacity sub-slider elements
+const inputOpacitySlider = document.getElementById('input-opacity-slider');
+const inputOpacityVal = document.getElementById('input-opacity-val');
+const inputOpacityPanel = document.getElementById('input-opacity-panel');
+
+/** Shows or hides the opacity sub-panel based on toggle state */
+function syncInputOpacityPanel() {
+  if (inputOpacityPanel) {
+    inputOpacityPanel.style.display = toggleInputChats.checked ? 'block' : 'none';
+  }
+}
 
 /**
  * Updates the dashboard's visual theme based on the active state.
@@ -54,7 +67,8 @@ function getSettingsFromUI() {
     blurPreviews: togglePreviews.checked,
     blurTextChats: toggleTextChats.checked,
     blurMediaChats: toggleMediaChats.checked,
-    blurInputChats: toggleInputChats.checked
+    blurInputChats: toggleInputChats.checked,
+    inputOpacity: parseInt(inputOpacitySlider.value, 10)
   };
 }
 
@@ -113,6 +127,12 @@ function initDashboard() {
     toggleMediaChats.checked = settings.blurMediaChats;
     toggleInputChats.checked = settings.blurInputChats;
 
+    // Initialize opacity sub-slider
+    const opacity = settings.inputOpacity !== undefined ? settings.inputOpacity : DEFAULT_SETTINGS.inputOpacity;
+    inputOpacitySlider.value = opacity;
+    inputOpacityVal.textContent = `${opacity}%`;
+    syncInputOpacityPanel();
+
     // Apply active dashboard theme
     updateDashboardState(settings.enabled);
   });
@@ -125,7 +145,16 @@ toggleNames.addEventListener('change', saveAndSyncSettings);
 togglePreviews.addEventListener('change', saveAndSyncSettings);
 toggleTextChats.addEventListener('change', saveAndSyncSettings);
 toggleMediaChats.addEventListener('change', saveAndSyncSettings);
-toggleInputChats.addEventListener('change', saveAndSyncSettings);
+toggleInputChats.addEventListener('change', () => {
+  syncInputOpacityPanel();
+  saveAndSyncSettings();
+});
+
+// Opacity sub-slider: update label live, save on change
+inputOpacitySlider.addEventListener('input', () => {
+  inputOpacityVal.textContent = `${inputOpacitySlider.value}%`;
+});
+inputOpacitySlider.addEventListener('change', saveAndSyncSettings);
 
 // Bind real-time input dragging to update values
 blurSlider.addEventListener('input', () => {

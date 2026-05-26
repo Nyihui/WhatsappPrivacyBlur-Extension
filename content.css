@@ -6,13 +6,12 @@
   --wa-blur-amount: 8px;
   --wa-blur-transition: filter 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   --wa-avatar-blur: var(--wa-blur-amount);
+  --wa-input-opacity: 0.3;
 }
 
-/* Global Switch Override: If privacy mode is globally disabled, do not apply any rules.
-   If force-reveal is enabled (e.g. Alt key held down), do not apply any rules. */
-:root:not(.wa-privacy-enabled),
-.wa-force-reveal,
-.wa-force-reveal * {
+
+/* Global Switch Override: If privacy mode is globally disabled, remove all rules. */
+:root:not(.wa-privacy-enabled) {
   filter: none !important;
 }
 
@@ -348,152 +347,75 @@
    ========================================================================== */
 
 /* --- 4.1 Text Chats (.wa-blur-text) --- */
-/* Temporarily disabled: Ready to rebuild step-by-step as requested */
-/*
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] .copyable-text,
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] .selectable-text,
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] span.selectable-text,
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [class*="copyable-text"],
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [class*="selectable-text"],
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"] span:not([data-testid*="checkmark"]):not([class*="time"]):not([class*="avatar"]),
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [class*="message-"] span:not([data-testid*="checkmark"]):not([class*="time"]):not([class*="avatar"]),
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] div[class*="message-text"],
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] div[class*="msg-text"],
-.wa-privacy-enabled.wa-blur-text #main .copyable-text,
-.wa-privacy-enabled.wa-blur-text #main .selectable-text,
-.wa-privacy-enabled.wa-blur-text #main span.selectable-text,
-.wa-privacy-enabled.wa-blur-text #main [class*="copyable-text"],
-.wa-privacy-enabled.wa-blur-text #main [class*="selectable-text"],
-.wa-privacy-enabled.wa-blur-text #main div[class*="message-text"],
-.wa-privacy-enabled.wa-blur-text #main div[class*="msg-text"] {
+/* Targets the TEXT CONTENT element (.copyable-text) directly — not the whole bubble.
+   This means in a text+image message, only the TEXT part is blurred by this toggle.
+   The image is left unblurred unless the Media toggle is also ON. */
+
+.wa-privacy-enabled.wa-blur-text [data-testid="msg-container"] .copyable-text {
   filter: blur(var(--wa-blur-amount)) !important;
   transition: var(--wa-blur-transition) !important;
   will-change: filter;
   transform: translateZ(0);
 }
-*/
 
-/*
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover .copyable-text,
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover .selectable-text,
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover [class*="copyable-text"],
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover [class*="selectable-text"],
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover span:not([data-testid*="checkmark"]):not([class*="time"]),
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [class*="message-"]:hover span:not([data-testid*="checkmark"]):not([class*="time"]),
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover span.selectable-text,
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover div[class*="message-text"],
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover div[class*="msg-text"],
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] div.message-in:hover span.selectable-text,
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] div.message-out:hover span.selectable-text,
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] span.selectable-text:hover,
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] div[class*="message-text"]:hover,
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] div[class*="msg-text"]:hover,
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] .copyable-text:hover,
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] .selectable-text:hover,
-.wa-privacy-enabled.wa-blur-text [data-testid="msg-container"]:hover span.selectable-text,
-.wa-privacy-enabled.wa-blur-text div.message-in:hover span.selectable-text,
-.wa-privacy-enabled.wa-blur-text div.message-out:hover span.selectable-text,
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover,
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] div.message-in:hover,
-.wa-privacy-enabled.wa-blur-text [data-testid="conversation-panel-wrapper"] div.message-out:hover,
-.wa-privacy-enabled.wa-blur-text div[data-testid="msg-container"]:hover,
-.wa-privacy-enabled.wa-blur-text div.message-in:hover,
-.wa-privacy-enabled.wa-blur-text div.message-out:hover {
+/* Reveal text on hover of the whole bubble */
+.wa-privacy-enabled.wa-blur-text [data-testid="msg-container"]:hover .copyable-text {
   filter: blur(0px) !important;
 }
-*/
 
 
 /* --- 4.2 Media Chats (.wa-blur-media) --- */
-/* Temporarily disabled: Ready to rebuild step-by-step as requested */
-/*
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] img:not([data-testid*="checkmark"]):not([class*="avatar"]),
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] video,
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] audio,
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] canvas,
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [class*="visual"],
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid*="image"],
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid*="video"],
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid*="audio"],
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid*="voice-note"],
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid*="sticker"],
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid*="link-preview"],
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid*="document"],
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid*="quoted-message"],
-.wa-privacy-enabled.wa-blur-media #main img:not([data-testid*="checkmark"]):not([class*="avatar"]),
-.wa-privacy-enabled.wa-blur-media #main video,
-.wa-privacy-enabled.wa-blur-media #main audio {
+/* Targets specific MEDIA ELEMENTS directly — not the whole bubble.
+   In a text+image message, only the IMAGE is blurred by this toggle.
+   The caption text is left unblurred unless the Text toggle is also ON. */
+
+/* A. Image thumbnails */
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="image-thumb"],
+/* B. Video thumbnails */
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="video-thumb"],
+/* C. Stickers — broad selectors to cover all WhatsApp sticker rendering methods */
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="sticker-url-provider"],
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid*="sticker"],
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [class*="sticker"],
+/* D. Audio / voice notes */
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid*="voice-note"],
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="audio-player"],
+/* E. Documents / files */
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="document-thumb"],
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid*="document"] {
   filter: blur(var(--wa-blur-amount)) !important;
   transition: var(--wa-blur-transition) !important;
   will-change: filter;
   transform: translateZ(0);
 }
-*/
 
-/*
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover img,
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover video,
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover audio,
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover canvas,
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover [class*="visual"],
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover [data-testid*="image"],
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover [data-testid*="video"],
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover [data-testid*="audio"],
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover [data-testid*="voice-note"],
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover [data-testid*="sticker"],
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover [data-testid*="link-preview"],
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover [data-testid*="document"],
-.wa-privacy-enabled.wa-blur-media [data-testid="conversation-panel-wrapper"] [data-testid="msg-container"]:hover [data-testid*="quoted-message"],
-.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"]:hover img,
-.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"]:hover video,
-.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"]:hover audio {
+/* Reveal all media elements on hover of the whole bubble */
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"]:hover [data-testid="image-thumb"],
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"]:hover [data-testid="video-thumb"],
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"]:hover [data-testid="sticker-url-provider"],
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"]:hover [data-testid*="sticker"],
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"]:hover [class*="sticker"],
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"]:hover [data-testid*="voice-note"],
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"]:hover [data-testid="audio-player"],
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"]:hover [data-testid="document-thumb"],
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"]:hover [data-testid*="document"] {
   filter: blur(0px) !important;
 }
-*/
 
 
 /* --- 4.3 Compose / Input Area (.wa-blur-input) --- */
-/* Temporarily disabled: Ready to rebuild step-by-step as requested */
-/*
-.wa-privacy-enabled.wa-blur-input #main footer div[contenteditable="true"],
-.wa-privacy-enabled.wa-blur-input [data-testid="conversation-panel-wrapper"] footer div[contenteditable="true"],
-.wa-privacy-enabled.wa-blur-input [data-testid="rich-text-input"],
-.wa-privacy-enabled.wa-blur-input [data-testid="compose-input"],
-.wa-privacy-enabled.wa-blur-input div.lexical-rich-text-input,
-.wa-privacy-enabled.wa-blur-input div[class*="rich-text-input"],
-.wa-privacy-enabled.wa-blur-input div[class*="compose-input"] {
-  opacity: 0.3 !important;
+
+/* Apply variable-driven opacity to the entire footer bar */
+.wa-privacy-enabled.wa-blur-input #main footer,
+.wa-privacy-enabled.wa-blur-input [data-testid="conversation-panel-wrapper"] footer {
+  opacity: var(--wa-input-opacity) !important;
   transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  will-change: opacity;
 }
-*/
 
-/*
-.wa-privacy-enabled.wa-blur-input #main footer div[contenteditable="true"]:focus,
-.wa-privacy-enabled.wa-blur-input #main footer div[contenteditable="true"]:hover,
-.wa-privacy-enabled.wa-blur-input [data-testid="conversation-panel-wrapper"] footer div[contenteditable="true"]:focus,
-.wa-privacy-enabled.wa-blur-input [data-testid="conversation-panel-wrapper"] footer div[contenteditable="true"]:hover,
-.wa-privacy-enabled.wa-blur-input [data-testid="rich-text-input"]:focus,
-.wa-privacy-enabled.wa-blur-input [data-testid="rich-text-input"]:hover,
-.wa-privacy-enabled.wa-blur-input [data-testid="compose-input"]:focus,
-.wa-privacy-enabled.wa-blur-input [data-testid="compose-input"]:hover,
-.wa-privacy-enabled.wa-blur-input div.lexical-rich-text-input:focus,
-.wa-privacy-enabled.wa-blur-input div.lexical-rich-text-input:hover,
-.wa-privacy-enabled.wa-blur-input div[class*="rich-text-input"]:focus,
-.wa-privacy-enabled.wa-blur-input div[class*="rich-text-input"]:hover,
-.wa-privacy-enabled.wa-blur-input div[class*="compose-input"]:focus,
-.wa-privacy-enabled.wa-blur-input div[class*="compose-input"]:hover {
+/* Reveal fully on hover only — stays transparent while typing (focus-within intentionally excluded) */
+.wa-privacy-enabled.wa-blur-input #main footer:hover,
+.wa-privacy-enabled.wa-blur-input [data-testid="conversation-panel-wrapper"] footer:hover {
   opacity: 1 !important;
 }
-*/
 
-/*
-.wa-force-reveal #main footer div[contenteditable="true"],
-.wa-force-reveal [data-testid="conversation-panel-wrapper"] footer div[contenteditable="true"],
-.wa-force-reveal [data-testid="rich-text-input"],
-.wa-force-reveal [data-testid="compose-input"],
-.wa-force-reveal div.lexical-rich-text-input,
-.wa-force-reveal div[class*="rich-text-input"],
-.wa-force-reveal div[class*="compose-input"] {
-  opacity: 1 !important;
-}
-*/

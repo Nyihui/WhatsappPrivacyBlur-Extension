@@ -34,21 +34,38 @@
 /* Base Body Override */
 body {
   width: 350px;
+  max-height: 580px;
   margin: 0;
   padding: 0;
   background-color: var(--bg-slate-900);
   font-family: var(--font-family);
   color: var(--text-primary);
   box-sizing: border-box;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* Slim custom scrollbar to match dark theme */
+body::-webkit-scrollbar {
+  width: 4px;
+}
+body::-webkit-scrollbar-track {
+  background: transparent;
+}
+body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+}
+body::-webkit-scrollbar-thumb:hover {
+  background: rgba(16, 185, 129, 0.4);
 }
 
 /* Dashboard Wrapper */
 .dashboard {
-  padding: 16px;
+  padding: 12px 14px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 /* Header Area */
@@ -56,7 +73,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 4px 4px 8px 4px;
+  padding: 2px 4px 6px 4px;
 }
 
 .logo-area {
@@ -101,7 +118,7 @@ body {
   border: 1px solid var(--border-light);
   border-radius: var(--card-radius);
   box-shadow: var(--card-shadow);
-  padding: 16px;
+  padding: 12px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -178,21 +195,21 @@ body {
 
 /* Target Elements Section */
 .section-title {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
   color: var(--text-muted);
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   border-bottom: 1px solid var(--border-light);
-  padding-bottom: 6px;
+  padding-bottom: 4px;
 }
 
 .control-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0;
+  padding: 7px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.03);
   transition: padding-left 0.2s ease;
 }
@@ -328,7 +345,7 @@ input:checked + .slider::before {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .slider-title {
@@ -392,17 +409,17 @@ input:checked + .slider::before {
 .footer {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-top: 4px;
+  gap: 8px;
+  margin-top: 2px;
 }
 
 .tip-card {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--border-light);
-  border-radius: 12px;
-  padding: 10px 12px;
+  border-radius: 10px;
+  padding: 8px 10px;
   align-items: center;
 }
 
@@ -473,4 +490,66 @@ input:checked + .slider::before {
 
 .dashboard.shield-off .row-switch .slider {
   cursor: not-allowed;
+}
+
+/* ============================================================
+   Expandable Control Row (for sub-slider panels)
+   ============================================================ */
+
+.control-row--expandable {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.control-row--expandable .row-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+/* Sub-slider panel */
+.sub-slider {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: rgba(16, 185, 129, 0.04);
+  border: 1px solid rgba(16, 185, 129, 0.12);
+  border-radius: 10px;
+  animation: slideDown 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.sub-slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.sub-slider-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+}
+
+.sub-slider-val {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent-green);
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  padding: 1px 6px;
+  border-radius: 4px;
+  min-width: 36px;
+  text-align: center;
+}
+
+.sub-range-slider {
+  margin: 4px 0 8px 0;
 }
