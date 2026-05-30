@@ -5,7 +5,7 @@
 // Default configuration settings
 const DEFAULT_SETTINGS = {
   enabled: true,
-  blurAmount: 8,
+  blurAmount: 3,
   blurAvatars: true,
   blurNames: true,
   blurPreviews: true,
@@ -22,7 +22,7 @@ const DEFAULT_SETTINGS = {
  */
 function applySettings(settings) {
   const root = document.documentElement;
-  
+
   // 1. Apply the custom blur intensity CSS variable
   const blurPx = settings.blurAmount !== undefined ? settings.blurAmount : DEFAULT_SETTINGS.blurAmount;
   root.style.setProperty('--wa-blur-amount', `${blurPx}px`);
@@ -83,3 +83,17 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
     });
   }
 });
+
+// 3. Listen for shortcut keys (Alt + /) to quick toggle the privacy shield
+window.addEventListener('keydown', (event) => {
+  if (event.altKey && (event.key === '/' || event.code === 'Slash')) {
+    event.preventDefault();
+    chrome.storage.local.get(DEFAULT_SETTINGS, (settings) => {
+      const isEnabled = settings.enabled !== undefined ? settings.enabled : DEFAULT_SETTINGS.enabled;
+      chrome.storage.local.set({ enabled: !isEnabled }, () => {
+        console.log(`[Privacy Blur] Shield toggled via Alt+/ shortcut. New state: ${!isEnabled}`);
+      });
+    });
+  }
+});
+

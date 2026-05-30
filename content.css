@@ -3,10 +3,10 @@
    ========================================================================== */
 
 :root {
-  --wa-blur-amount: 8px;
+  --wa-blur-amount: var(--wa-blur-amount);
   --wa-blur-transition: filter 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   --wa-avatar-blur: var(--wa-blur-amount);
-  --wa-input-opacity: 0.3;
+  --wa-input-opacity: var(--wa-input-opacity);
 }
 
 
@@ -20,142 +20,48 @@
    ========================================================================== */
 
 /* --- 1.1 Blur Selectors for Profile Pictures --- */
-
-/* A. Primary Layer: Highly Stable Test & Automation Attributes (Do not change across updates) */
-.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-avatar"] img,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="chat-avatar"] img,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="avatar"] img,
-.wa-privacy-enabled.wa-blur-avatars span[data-testid="avatar"] img,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="chat-list-header"] img,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="settings-side-rail"] img,
-
-/* B. Primary Layer: Stable Structural & Semantic Containers */
-.wa-privacy-enabled.wa-blur-avatars [class*="avatar"] img,
-.wa-privacy-enabled.wa-blur-avatars [class*="avatar"] div[style*="background-image"],
-.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-frame-container"] > div:first-child img,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-frame-container"] > div:first-child div[style*="background-image"],
-
-/* C. Secondary Layer: Obfuscated Dynamic Classes (Immediate Session Fallback) */
-/* 1. Sidebar self-profile picture */
-.wa-privacy-enabled.wa-blur-avatars img.x1n2onr6.xt8t1vi.x1xc408v.x129tdwq.x15urzxu,
-.wa-privacy-enabled.wa-blur-avatars div.x1n2onr6.xt8t1vi.x1xc408v.x129tdwq.x15urzxu[style*="background-image"],
-.wa-privacy-enabled.wa-blur-avatars .x1n2onr6.xt8t1vi.x1xc408v.x129tdwq.x15urzxu img,
-/* 2. Chat self & contact/group profile pictures */
-.wa-privacy-enabled.wa-blur-avatars img.x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e,
-.wa-privacy-enabled.wa-blur-avatars div.x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e[style*="background-image"],
-.wa-privacy-enabled.wa-blur-avatars .x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e img,
-.wa-privacy-enabled.wa-blur-avatars .x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e div[style*="background-image"],
-
-/* D. Top Header, Info Drawers, and Conversation Header Avatars */
-.wa-privacy-enabled.wa-blur-avatars [data-testid="conversation-header"] [data-testid="cell-avatar"] img,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="conversation-header"] [data-testid="chat-avatar"] img,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="conversation-header"] [data-testid="avatar"] img,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="contact-info-drawer"] [data-testid="avatar"] img,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="profile-drawer"] [data-testid="avatar"] img {
+/* A. Main Screen */
+.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-frame-container"] div:has(span[data-icon*="default-"]),
+.wa-privacy-enabled.wa-blur-avatars div[data-testid="message-yourself-row"] div:has(img[alt=""]),
+.wa-privacy-enabled.wa-blur-avatars div[data-testid="cell-frame-container"] div:has(img[alt=""]),
+/* B. Detail Conversation Head */
+.wa-privacy-enabled.wa-blur-avatars [data-testid="conversation-header"] img[alt=""],
+/* C. Status */
+.wa-privacy-enabled.wa-blur-avatars [data-testid="status-thumbnail"],
+.wa-privacy-enabled.wa-blur-avatars [data-testid="status-header-add-status"] img,
+/* D. Contact Info Detail */
+.wa-privacy-enabled.wa-blur-avatars div[data-testid="chat-info-drawer"] div:has(img[src])[aria-label="View photo"],
+.wa-privacy-enabled.wa-blur-avatars [data-testid="group-info-drawer-body"] button[data-testid="group-pic-picker"],
+/* E. Chats */
+.wa-privacy-enabled.wa-blur-avatars [data-testid="group-notification-context-card-photo"],
+.wa-privacy-enabled.wa-blur-avatars div[data-testid="group-chat-profile-picture"]:has(img),
+.wa-privacy-enabled.wa-blur-avatars [data-testid="msg-container"]:has([data-testid="ptt-status"]) div:has(>img[alt=""]),
+/* F. Profile Picture On Sidebar */
+.wa-privacy-enabled.wa-blur-avatars header[data-testid="chatlist-header"] button[type="button"][aria-label="You"] {
   filter: blur(var(--wa-avatar-blur)) !important;
   transition: var(--wa-blur-transition) !important;
   will-change: filter;
   transform: translateZ(0);
 }
 
-
-/* --- 1.2 Reveal Profile Pictures on Hover (Symmetric specificity pairing & CSS Variable Inheritance) --- */
-
-/* A. Dynamic Variable Inheritance Layer: Triggers unblur when hovering over any parent row, cell, drawer, sidebar or header */
-.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-frame-container"]:hover,
-.wa-privacy-enabled.wa-blur-avatars [role="row"]:hover,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-avatar"]:hover,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="chat-avatar"]:hover,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="avatar"]:hover,
-.wa-privacy-enabled.wa-blur-avatars span[data-testid="avatar"]:hover,
-.wa-privacy-enabled.wa-blur-avatars [class*="avatar"]:hover,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="chat-list-header"]:hover,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="settings-side-rail"]:hover,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="conversation-header"]:hover,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="contact-info-drawer"]:hover,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="profile-drawer"]:hover,
-.wa-privacy-enabled.wa-blur-avatars [class*="drawer"]:hover,
-.wa-privacy-enabled.wa-blur-avatars [class*="sidebar-right"]:hover,
-.wa-privacy-enabled.wa-blur-avatars [class*="cell"]:hover,
-.wa-privacy-enabled.wa-blur-avatars img:hover,
-.wa-privacy-enabled.wa-blur-avatars div[style*="background-image"]:hover {
-  --wa-avatar-blur: 0px !important;
-}
-
-/* B. Strict Specificity-Symmetric Filter Override Layer (Failsafe) */
-.wa-privacy-enabled.wa-blur-avatars img.x1n2onr6.xt8t1vi.x1xc408v.x129tdwq.x15urzxu:hover,
-.wa-privacy-enabled.wa-blur-avatars div.x1n2onr6.xt8t1vi.x1xc408v.x129tdwq.x15urzxu:hover,
-.wa-privacy-enabled.wa-blur-avatars .x1n2onr6.xt8t1vi.x1xc408v.x129tdwq.x15urzxu:hover img,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="chat-list-header"] img:hover,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="settings-side-rail"] img:hover,
-
-/* Direct Hover reveals for contact / group avatars */
-.wa-privacy-enabled.wa-blur-avatars img.x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e:hover,
-.wa-privacy-enabled.wa-blur-avatars div.x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e:hover,
-.wa-privacy-enabled.wa-blur-avatars .x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e:hover img,
-.wa-privacy-enabled.wa-blur-avatars .x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e:hover div[style*="background-image"],
-.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-avatar"]:hover img,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="chat-avatar"]:hover img,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="avatar"]:hover img,
-.wa-privacy-enabled.wa-blur-avatars span[data-testid="avatar"]:hover img,
-.wa-privacy-enabled.wa-blur-avatars [class*="avatar"]:hover img,
-.wa-privacy-enabled.wa-blur-avatars [class*="avatar"]:hover div[style*="background-image"],
-
-/* Row-Level and Frame-Level Reveals for chat list items */
-.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-frame-container"]:hover img,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-frame-container"]:hover div[style*="background-image"],
-.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-frame-container"]:hover img.x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-frame-container"]:hover div.x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-frame-container"]:hover .x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e img,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-frame-container"]:hover .x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e div[style*="background-image"],
-.wa-privacy-enabled.wa-blur-avatars [role="row"]:hover img.x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e,
-.wa-privacy-enabled.wa-blur-avatars [role="row"]:hover [data-testid="cell-avatar"] img,
-.wa-privacy-enabled.wa-blur-avatars [role="row"]:hover [data-testid="chat-avatar"] img,
-.wa-privacy-enabled.wa-blur-avatars [role="row"]:hover [data-testid="avatar"] img,
-.wa-privacy-enabled.wa-blur-avatars [role="row"]:hover .x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e img,
-.wa-privacy-enabled.wa-blur-avatars [role="row"]:hover .x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e div[style*="background-image"],
-.wa-privacy-enabled.wa-blur-avatars [class*="cell"]:hover img.x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e,
-.wa-privacy-enabled.wa-blur-avatars [class*="cell"]:hover [data-testid="cell-avatar"] img,
-
-/* Top Header, Conversation Header, and Drawer reveals on hover */
-.wa-privacy-enabled.wa-blur-avatars [data-testid="conversation-header"]:hover img,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="conversation-header"]:hover img.x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="conversation-header"]:hover div[style*="background-image"],
-.wa-privacy-enabled.wa-blur-avatars [data-testid="conversation-header"]:hover .x1n2onr6.x1lliihq.xh8yej3.x5yr21d.x6ikm8r.x10wlt62.x1c9tyrk.xeusxvb.x1pahc9y.x1ertn4p.xl1xv1r.x115dhu7.x17vty23.x1hc1fzr.x4u6w88.x1g40iwv._ao3e div[style*="background-image"],
-.wa-privacy-enabled.wa-blur-avatars [data-testid="contact-info-drawer"]:hover img,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="profile-drawer"]:hover img,
-.wa-privacy-enabled.wa-blur-avatars [class*="drawer"]:hover img,
-.wa-privacy-enabled.wa-blur-avatars [class*="sidebar-right"]:hover img {
+/* --- 1.2 Reveal Profile Pictures on Hover --- */
+.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-frame-container"] div:has(span[data-icon*="default-"]):hover,
+.wa-privacy-enabled.wa-blur-avatars div[data-testid="message-yourself-row"] div:has(img[alt=""]):hover,
+.wa-privacy-enabled.wa-blur-avatars div[data-testid="cell-frame-container"] div:has(img[alt=""]):hover,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="conversation-header"] img[alt=""]:hover,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="status-thumbnail"]:hover,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="status-header-add-status"] img:hover,
+.wa-privacy-enabled.wa-blur-avatars div[data-testid="chat-info-drawer"] div:has(img[src])[aria-label="View photo"]:hover,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="group-info-drawer-body"] button[data-testid="group-pic-picker"]:hover,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="group-notification-context-card-photo"]:hover,
+.wa-privacy-enabled.wa-blur-avatars div[data-testid="group-chat-profile-picture"]:has(img):hover,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="msg-container"]:has([data-testid="ptt-status"]) div:has(>img[alt=""]):hover,
+.wa-privacy-enabled.wa-blur-avatars header[data-testid="chatlist-header"] button[type="button"][aria-label="You"]:hover {
   filter: blur(0px) !important;
 }
 
 
-/* --- 1.3 Exclude Generic Placeholders & Navigation Icons from Blurring (Failsafe Override) --- */
-.wa-privacy-enabled.wa-blur-avatars img[src*="rsrc.php"],
-.wa-privacy-enabled.wa-blur-avatars img[src^="data:"],
-.wa-privacy-enabled.wa-blur-avatars img[src*="default"],
-.wa-privacy-enabled.wa-blur-avatars div[style*="background-image"][style*="rsrc.php"],
-.wa-privacy-enabled.wa-blur-avatars div[style*="background-image"][style*="data:"],
-.wa-privacy-enabled.wa-blur-avatars div[style*="background-image"][style*="default"],
-.wa-privacy-enabled.wa-blur-avatars [class*="avatar"] img[src*="rsrc.php"],
-.wa-privacy-enabled.wa-blur-avatars [class*="avatar"] img[src^="data:"],
-.wa-privacy-enabled.wa-blur-avatars [class*="avatar"] img[src*="default"],
-.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-avatar"] img[src*="rsrc.php"],
-.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-avatar"] img[src^="data:"],
-.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-avatar"] img[src*="default"],
-.wa-privacy-enabled.wa-blur-avatars [data-testid="chat-avatar"] img[src*="rsrc.php"],
-.wa-privacy-enabled.wa-blur-avatars [data-testid="chat-avatar"] img[src^="data:"],
-.wa-privacy-enabled.wa-blur-avatars [data-testid="chat-avatar"] img[src*="default"],
-.wa-privacy-enabled.wa-blur-avatars [data-testid="avatar"] img[src*="rsrc.php"],
-.wa-privacy-enabled.wa-blur-avatars [data-testid="avatar"] img[src^="data:"],
-.wa-privacy-enabled.wa-blur-avatars [data-testid="avatar"] img[src*="default"],
-.wa-privacy-enabled.wa-blur-avatars [data-testid*="rail"] img,
-.wa-privacy-enabled.wa-blur-avatars [class*="rail"] img,
-.wa-privacy-enabled.wa-blur-avatars [role="navigation"] img,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="settings-side-rail"] img,
-.wa-privacy-enabled.wa-blur-avatars [data-testid="chat-list-header"] img {
-  filter: none !important;
-}
+
 
 
 /* ==========================================================================
@@ -163,79 +69,48 @@
    ========================================================================== */
 
 /* --- 2.1 Blur Selectors for Names --- */
-
-/* A. Primary Layer: Highly Stable Automation & Test Attributes */
-.wa-privacy-enabled.wa-blur-names [data-testid="cell-contact-title"],
-.wa-privacy-enabled.wa-blur-names [data-testid="chat-title"],
-.wa-privacy-enabled.wa-blur-names [data-testid="chat-title"] span,
-.wa-privacy-enabled.wa-blur-names span[data-testid="cell-contact-title"],
-.wa-privacy-enabled.wa-blur-names div[data-testid="chat-title"],
-.wa-privacy-enabled.wa-blur-names div[data-testid="chat-title"] span,
-
-/* B. Primary Layer: Stable Structural Fallbacks */
-.wa-privacy-enabled.wa-blur-names span[dir="auto"][title]:not([title="Archived"]):not([title*="Archive"]):not([title="WhatsApp"]),
-.wa-privacy-enabled.wa-blur-names span[class*="title"][title]:not([title="Archived"]):not([title*="Archive"]):not([title="WhatsApp"]),
-
-/* C. Secondary Layer: Obfuscated Dynamic Classes (Immediate Session Fallback) */
-.wa-privacy-enabled.wa-blur-names .x1iyjqo2.x6ikm8r.x10wlt62.x1n2onr6.xlyipyv.xuxw1ft.x1rg5ohu.x1jchvi3.xjb2p0i.xo1l8bm.x17mssa0.x1ic7a3i._ao3e,
-.wa-privacy-enabled.wa-blur-names span.x1iyjqo2.x6ikm8r.x10wlt62.x1n2onr6.xlyipyv.xuxw1ft.x1rg5ohu.x1jchvi3.xjb2p0i.xo1l8bm.x17mssa0.x1ic7a3i._ao3e,
-.wa-privacy-enabled.wa-blur-names div.x1iyjqo2.x6ikm8r.x10wlt62.x1n2onr6.xlyipyv.xuxw1ft.x1rg5ohu.x1jchvi3.xjb2p0i.xo1l8bm.x17mssa0.x1ic7a3i._ao3e,
-
-/* D. Conversation header and right drawers */
-.wa-privacy-enabled.wa-blur-names [data-testid="conversation-header"] [data-testid="conversation-info-header"] [data-testid="cell-contact-title"],
-.wa-privacy-enabled.wa-blur-names [data-testid="conversation-header"] [data-testid="conversation-info-header"] [data-testid="chat-title"],
-.wa-privacy-enabled.wa-blur-names [data-testid="conversation-header"] [data-testid="conversation-info-header"] span,
-.wa-privacy-enabled.wa-blur-names [data-testid="conversation-header"] [data-testid="conversation-info-header"] [dir="auto"],
-.wa-privacy-enabled.wa-blur-names [data-testid="contact-info-drawer"] [data-testid="contact-info-title"],
-.wa-privacy-enabled.wa-blur-names [data-testid="contact-info-drawer"] [data-testid="contact-name"],
-.wa-privacy-enabled.wa-blur-names [data-testid="profile-drawer"] [data-testid="profile-name"] {
+/* A. Main Screen */
+.wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-title"]:has([dir="auto"]),
+/* B. New Chat */
+.wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-title"]:has([data-testid="cell-frame-secondary"]),
+/* C. Detail Conversation Head */
+.wa-privacy-enabled.wa-blur-names [data-testid="conversation-info-header"],
+/* D. Status Name */
+.wa-privacy-enabled.wa-blur-names [data-testid="status-row-cell"] [data-testid="cell-frame-title"]:has(span),
+/* E. Detail Sidebar */
+.wa-privacy-enabled.wa-blur-names span[data-testid="contact-info-subtitle selectable-text"],
+.wa-privacy-enabled.wa-blur-names div:has([class=""])>span:not([title])[class*="copyable-text"][dir="auto"][data-testid="selectable-text"],
+.wa-privacy-enabled.wa-blur-names div:has(>span[data-testid="group-info-drawer-subject-input-read-only selectable-text"]),
+.wa-privacy-enabled.wa-blur-names div:has(>[data-testid="section-common-groups"]) [data-testid="cell-frame-secondary"]:has([data-testid="chat-subtitle"]),
+.wa-privacy-enabled.wa-blur-names [data-testid="group-info-participants-section"] [data-testid="cell-frame-secondary"] [role="gridcell"],
+.wa-privacy-enabled.wa-blur-names [data-testid="li-block"]>div>div:last-child,
+.wa-privacy-enabled.wa-blur-names [data-testid="li-report-spam"][aria-label="Report "]>div>div:last-child,
+/* F. Group Chat */
+.wa-privacy-enabled.wa-blur-names div[role]:has(>span[data-testid="author"][dir="auto"]) {
   filter: blur(var(--wa-blur-amount)) !important;
   transition: var(--wa-blur-transition) !important;
   will-change: filter;
   transform: translateZ(0);
 }
 
-
 /* --- 2.2 Reveal Contact / Group Names on Hover (Symmetric specificity overrides) --- */
-
-/* A. Direct Element Hover */
-.wa-privacy-enabled.wa-blur-names [data-testid="cell-contact-title"]:hover,
-.wa-privacy-enabled.wa-blur-names [data-testid="chat-title"]:hover,
-.wa-privacy-enabled.wa-blur-names [data-testid="chat-title"] span:hover,
-.wa-privacy-enabled.wa-blur-names span[data-testid="cell-contact-title"]:hover,
-.wa-privacy-enabled.wa-blur-names div[data-testid="chat-title"]:hover,
-.wa-privacy-enabled.wa-blur-names div[data-testid="chat-title"] span:hover,
-.wa-privacy-enabled.wa-blur-names span[dir="auto"][title]:hover,
-.wa-privacy-enabled.wa-blur-names .x1iyjqo2.x6ikm8r.x10wlt62.x1n2onr6.xlyipyv.xuxw1ft.x1rg5ohu.x1jchvi3.xjb2p0i.xo1l8bm.x17mssa0.x1ic7a3i._ao3e:hover,
-.wa-privacy-enabled.wa-blur-names span.x1iyjqo2.x6ikm8r.x10wlt62.x1n2onr6.xlyipyv.xuxw1ft.x1rg5ohu.x1jchvi3.xjb2p0i.xo1l8bm.x17mssa0.x1ic7a3i._ao3e:hover,
-.wa-privacy-enabled.wa-blur-names div.x1iyjqo2.x6ikm8r.x10wlt62.x1n2onr6.xlyipyv.xuxw1ft.x1rg5ohu.x1jchvi3.xjb2p0i.xo1l8bm.x17mssa0.x1ic7a3i._ao3e:hover,
-
-/* B. Card & Row-Level Hover reveals for chat list items (No ID selectors used to ensure clean win) */
-.wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-container"]:hover [data-testid="cell-contact-title"],
-.wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-container"]:hover [data-testid="chat-title"],
-.wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-container"]:hover [data-testid="chat-title"] span,
-.wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-container"]:hover span[data-testid="cell-contact-title"],
-.wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-container"]:hover div[data-testid="chat-title"],
-.wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-container"]:hover div[data-testid="chat-title"] span,
-.wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-container"]:hover span[dir="auto"][title],
-.wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-container"]:hover .x1iyjqo2.x6ikm8r.x10wlt62.x1n2onr6.xlyipyv.xuxw1ft.x1rg5ohu.x1jchvi3.xjb2p0i.xo1l8bm.x17mssa0.x1ic7a3i._ao3e,
-.wa-privacy-enabled.wa-blur-names [role="row"]:hover [data-testid="cell-contact-title"],
-.wa-privacy-enabled.wa-blur-names [role="row"]:hover .x1iyjqo2.x6ikm8r.x10wlt62.x1n2onr6.xlyipyv.xuxw1ft.x1rg5ohu.x1jchvi3.xjb2p0i.xo1l8bm.x17mssa0.x1ic7a3i._ao3e,
-.wa-privacy-enabled.wa-blur-names [class*="cell"]:hover [data-testid="cell-contact-title"],
-.wa-privacy-enabled.wa-blur-names [class*="cell"]:hover .x1iyjqo2.x6ikm8r.x10wlt62.x1n2onr6.xlyipyv.xuxw1ft.x1rg5ohu.x1jchvi3.xjb2p0i.xo1l8bm.x17mssa0.x1ic7a3i._ao3e,
-
-/* C. Conversation header and right drawers reveals on hover */
-.wa-privacy-enabled.wa-blur-names [data-testid="conversation-header"]:hover [data-testid="conversation-info-header"] [data-testid="cell-contact-title"],
-.wa-privacy-enabled.wa-blur-names [data-testid="conversation-header"]:hover [data-testid="conversation-info-header"] [data-testid="chat-title"],
-.wa-privacy-enabled.wa-blur-names [data-testid="conversation-header"]:hover [data-testid="conversation-info-header"] span,
-.wa-privacy-enabled.wa-blur-names [data-testid="conversation-header"]:hover [data-testid="conversation-info-header"] [dir="auto"],
-.wa-privacy-enabled.wa-blur-names [data-testid="contact-info-drawer"]:hover [data-testid="contact-info-title"],
-.wa-privacy-enabled.wa-blur-names [data-testid="contact-info-drawer"]:hover [data-testid="contact-name"],
-.wa-privacy-enabled.wa-blur-names [data-testid="profile-drawer"]:hover [data-testid="profile-name"],
-.wa-privacy-enabled.wa-blur-names [class*="drawer"]:hover [data-testid="contact-name"],
-.wa-privacy-enabled.wa-blur-names [class*="sidebar-right"]:hover [data-testid="contact-name"] {
+.wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-title"]:has([dir="auto"]):hover,
+.wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-title"]:has([data-testid="cell-frame-secondary"]):hover,
+.wa-privacy-enabled.wa-blur-names [data-testid="conversation-info-header"]:hover,
+.wa-privacy-enabled.wa-blur-names [data-testid="status-row-cell"] [data-testid="cell-frame-title"]:has(span):hover,
+.wa-privacy-enabled.wa-blur-names span[data-testid="contact-info-subtitle selectable-text"]:hover,
+.wa-privacy-enabled.wa-blur-names div:has([class=""])>span:not([title])[class*="copyable-text"][dir="auto"][data-testid="selectable-text"]:hover,
+.wa-privacy-enabled.wa-blur-names div:has(>span[data-testid="group-info-drawer-subject-input-read-only selectable-text"]):hover,
+.wa-privacy-enabled.wa-blur-names div:has(>[data-testid="section-common-groups"]) [data-testid="cell-frame-secondary"]:has([data-testid="chat-subtitle"]):hover,
+.wa-privacy-enabled.wa-blur-names [data-testid="group-info-participants-section"] [data-testid="cell-frame-secondary"] [role="gridcell"]:hover,
+.wa-privacy-enabled.wa-blur-names [data-testid="li-block"]>div>div:last-child:hover,
+.wa-privacy-enabled.wa-blur-names [data-testid="li-report-spam"][aria-label="Report "]>div>div:last-child:hover,
+.wa-privacy-enabled.wa-blur-names div[role]:has(>span[data-testid="author"][dir="auto"]):hover {
   filter: blur(0px) !important;
 }
+
+
+
 
 
 /* ==========================================================================
@@ -243,32 +118,7 @@
    ========================================================================== */
 
 /* --- 3.1 Blur Selectors for Message Previews --- */
-
-/* A. Primary Layer: Highly Stable Test & Automation Attributes (Universal matching for both Group and Personal chats) */
-/* 1. Target the text span or element inside last-msg directly */
-.wa-privacy-enabled.wa-blur-previews [data-testid="last-msg"] span[dir],
-.wa-privacy-enabled.wa-blur-previews [data-testid="last-msg"] [dir],
-/* 2. Target the last-msg container itself ONLY if it does not contain nested spans (prevents double-blur) */
-.wa-privacy-enabled.wa-blur-previews [data-testid="last-msg"]:not(:has(span)),
-.wa-privacy-enabled.wa-blur-previews span[data-testid="last-msg"]:not(:has(span)),
-/* 3. Target leaf spans inside last-msg that are NOT status checkmarks or indicators */
-.wa-privacy-enabled.wa-blur-previews [data-testid="last-msg"] span:not([data-testid*="checkmark"]):not([data-testid*="status"]):not([data-icon*="check"]):not([class*="check"]):not([class*="status"]):not([data-testid="last-msg"]),
-/* 4. Legacy and general preview text selectors */
-.wa-privacy-enabled.wa-blur-previews span[data-testid="cell-contact-msg-text"],
-.wa-privacy-enabled.wa-blur-previews div[data-testid="cell-contact-msg-text"],
-.wa-privacy-enabled.wa-blur-previews [data-testid="cell-contact-msg-text"],
-
-/* B. Primary Layer: Stable Structural Sub-Spans under Chat Cell Container (Targeting ONLY the text-containing element) */
-.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"] span[data-testid="last-msg"] span[dir],
-.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"] span[data-testid="last-msg"] [dir],
-.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"] span[data-testid="last-msg"]:not(:has(span)),
-.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"] > div:nth-child(2) > div:nth-child(2) span[dir],
-.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"] > div:nth-child(2) > div:nth-child(2) [dir],
-
-/* C. Secondary Layer: Obfuscated Dynamic Classes (Targeting ONLY the text-containing element) */
-.wa-privacy-enabled.wa-blur-previews .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt span[dir],
-.wa-privacy-enabled.wa-blur-previews .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt [dir],
-.wa-privacy-enabled.wa-blur-previews .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt span:not([data-testid="last-msg"]):not([data-testid="cell-contact-msg"]) {
+.wa-privacy-enabled.wa-blur-previews [data-testid="last-msg-status"] {
   filter: blur(var(--wa-blur-amount)) !important;
   transition: var(--wa-blur-transition) !important;
   will-change: filter;
@@ -276,70 +126,12 @@
 }
 
 /* --- 3.2 Failsafes to Protect Indicators from Blurring (Mute, Pin, Double-Checkmarks, Timestamps) --- */
-.wa-privacy-enabled.wa-blur-previews [data-testid*="checkmark"],
-.wa-privacy-enabled.wa-blur-previews [data-testid*="status"],
-.wa-privacy-enabled.wa-blur-previews [data-testid*="double-checkmark"],
-.wa-privacy-enabled.wa-blur-previews [data-icon*="check"],
-.wa-privacy-enabled.wa-blur-previews svg[class*="check"],
-.wa-privacy-enabled.wa-blur-previews [class*="unread"],
-.wa-privacy-enabled.wa-blur-previews [class*="badge"],
-.wa-privacy-enabled.wa-blur-previews [data-testid*="badge"],
-.wa-privacy-enabled.wa-blur-previews [data-icon*="mute"],
-.wa-privacy-enabled.wa-blur-previews [data-icon*="pin"],
-.wa-privacy-enabled.wa-blur-previews [data-testid*="mute"],
-.wa-privacy-enabled.wa-blur-previews [data-testid*="pin"],
-.wa-privacy-enabled.wa-blur-previews [class*="time"],
-.wa-privacy-enabled.wa-blur-previews span[class*="time"] {
+.wa-privacy-enabled.wa-blur-previews [data-testid="last-msg-status"]:hover {
   filter: none !important;
 }
 
 
-/* --- 3.3 Reveal Message Previews on Hover (Symmetric specificity pairing overrides) --- */
 
-/* A. Direct Element Hover */
-.wa-privacy-enabled.wa-blur-previews [data-testid="last-msg"] span[dir]:hover,
-.wa-privacy-enabled.wa-blur-previews [data-testid="last-msg"] [dir]:hover,
-.wa-privacy-enabled.wa-blur-previews [data-testid="last-msg"]:not(:has(span)):hover,
-.wa-privacy-enabled.wa-blur-previews span[data-testid="last-msg"]:not(:has(span)):hover,
-.wa-privacy-enabled.wa-blur-previews [data-testid="last-msg"] span:not([data-testid*="checkmark"]):not([data-testid*="status"]):not([data-icon*="check"]):not([class*="check"]):not([class*="status"]):not([data-testid="last-msg"]):hover,
-.wa-privacy-enabled.wa-blur-previews span[data-testid="cell-contact-msg-text"]:hover,
-.wa-privacy-enabled.wa-blur-previews div[data-testid="cell-contact-msg-text"]:hover,
-.wa-privacy-enabled.wa-blur-previews [data-testid="cell-contact-msg-text"]:hover,
-.wa-privacy-enabled.wa-blur-previews .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt span[dir]:hover,
-.wa-privacy-enabled.wa-blur-previews .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt [dir]:hover,
-.wa-privacy-enabled.wa-blur-previews .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt span:not([data-testid="last-msg"]):not([data-testid="cell-contact-msg"]):hover,
-
-/* B. Card & Row-Level Hover reveals for chat list items (No ID selectors used to ensure clean win) */
-.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"]:hover [data-testid="last-msg"] span[dir],
-.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"]:hover [data-testid="last-msg"] [dir],
-.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"]:hover [data-testid="last-msg"]:not(:has(span)),
-.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"]:hover span[data-testid="last-msg"]:not(:has(span)),
-.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"]:hover [data-testid="last-msg"] span:not([data-testid*="checkmark"]):not([data-testid*="status"]):not([data-icon*="check"]):not([class*="check"]):not([class*="status"]):not([data-testid="last-msg"]),
-.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"]:hover span[data-testid="cell-contact-msg-text"],
-.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"]:hover [data-testid="cell-contact-msg-text"],
-.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"]:hover .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt span[dir],
-.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"]:hover .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt [dir],
-.wa-privacy-enabled.wa-blur-previews [data-testid="cell-frame-container"]:hover .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt span:not([data-testid="last-msg"]):not([data-testid="cell-contact-msg"]),
-.wa-privacy-enabled.wa-blur-previews [role="row"]:hover [data-testid="last-msg"] span[dir],
-.wa-privacy-enabled.wa-blur-previews [role="row"]:hover [data-testid="last-msg"] [dir],
-.wa-privacy-enabled.wa-blur-previews [role="row"]:hover [data-testid="last-msg"]:not(:has(span)),
-.wa-privacy-enabled.wa-blur-previews [role="row"]:hover span[data-testid="last-msg"]:not(:has(span)),
-.wa-privacy-enabled.wa-blur-previews [role="row"]:hover [data-testid="last-msg"] span:not([data-testid*="checkmark"]):not([data-testid*="status"]):not([data-icon*="check"]):not([class*="check"]):not([class*="status"]):not([data-testid="last-msg"]),
-.wa-privacy-enabled.wa-blur-previews [role="row"]:hover span[data-testid="cell-contact-msg-text"],
-.wa-privacy-enabled.wa-blur-previews [role="row"]:hover .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt span[dir],
-.wa-privacy-enabled.wa-blur-previews [role="row"]:hover .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt [dir],
-.wa-privacy-enabled.wa-blur-previews [role="row"]:hover .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt span:not([data-testid="last-msg"]):not([data-testid="cell-contact-msg"]),
-.wa-privacy-enabled.wa-blur-previews [class*="cell"]:hover [data-testid="last-msg"] span[dir],
-.wa-privacy-enabled.wa-blur-previews [class*="cell"]:hover [data-testid="last-msg"] [dir],
-.wa-privacy-enabled.wa-blur-previews [class*="cell"]:hover [data-testid="last-msg"]:not(:has(span)),
-.wa-privacy-enabled.wa-blur-previews [class*="cell"]:hover span[data-testid="last-msg"]:not(:has(span)),
-.wa-privacy-enabled.wa-blur-previews [class*="cell"]:hover [data-testid="last-msg"] span:not([data-testid*="checkmark"]):not([data-testid*="status"]):not([data-icon*="check"]):not([class*="check"]):not([class*="status"]):not([data-testid="last-msg"]),
-.wa-privacy-enabled.wa-blur-previews [class*="cell"]:hover span[data-testid="cell-contact-msg-text"],
-.wa-privacy-enabled.wa-blur-previews [class*="cell"]:hover .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt span[dir],
-.wa-privacy-enabled.wa-blur-previews [class*="cell"]:hover .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt [dir],
-.wa-privacy-enabled.wa-blur-previews [class*="cell"]:hover .x6s0dn4.xhslqc4.x78zum5.x1nxh6w3.x1fc57z9.xr9ek0c.xisnujt span:not([data-testid="last-msg"]):not([data-testid="cell-contact-msg"]) {
-  filter: blur(0px) !important;
-}
 
 
 /* ==========================================================================
@@ -347,11 +139,15 @@
    ========================================================================== */
 
 /* --- 4.1 Text Chats (.wa-blur-text) --- */
-/* Targets the TEXT CONTENT element (.copyable-text) directly — not the whole bubble.
-   This means in a text+image message, only the TEXT part is blurred by this toggle.
-   The image is left unblurred unless the Media toggle is also ON. */
-
-.wa-privacy-enabled.wa-blur-text [data-testid="msg-container"] .copyable-text {
+.wa-privacy-enabled.wa-blur-text [data-testid="group-notification-context-card-title"],
+.wa-privacy-enabled.wa-blur-text [data-testid="group-notification-context-card-subtitle"],
+.wa-privacy-enabled.wa-blur-text [data-testid="msg-notification-container"]:not(:has([data-testid="group-notification-context-card-title"], [data-testid="system_message"])),
+.wa-privacy-enabled.wa-blur-text div:has(>span[class*="quoted-mention"]),
+.wa-privacy-enabled.wa-blur-text [data-testid="msg-container"] div:has([data-testid="image-thumb"]) div:has(>span[data-testid="image-caption selectable-text"]),
+.wa-privacy-enabled.wa-blur-text div[class*="copyable-text"]>div:has(>span[class*="copyable-text"][data-testid="selectable-text"]),
+.wa-privacy-enabled.wa-blur-text div:has(>span[data-testid="group-notification-context-card-description selectable-text"]),
+.wa-privacy-enabled.wa-blur-text div:has(>[data-testid="group-info-drawer-description-title-input-read-only selectable-text"]),
+.wa-privacy-enabled.wa-blur-text [data-testid="group_info_created_by_wrapper"] {
   filter: blur(var(--wa-blur-amount)) !important;
   transition: var(--wa-blur-transition) !important;
   will-change: filter;
@@ -359,30 +155,33 @@
 }
 
 /* Reveal text on hover of the whole bubble */
-.wa-privacy-enabled.wa-blur-text [data-testid="msg-container"]:hover .copyable-text {
+.wa-privacy-enabled.wa-blur-text [data-testid="group-notification-context-card-title"]:hover,
+.wa-privacy-enabled.wa-blur-text [data-testid="group-notification-context-card-subtitle"]:hover,
+.wa-privacy-enabled.wa-blur-text [data-testid="msg-notification-container"]:not(:has([data-testid="group-notification-context-card-title"], [data-testid="system_message"])):hover,
+.wa-privacy-enabled.wa-blur-text div:has(>span[class*="quoted-mention"]):hover,
+.wa-privacy-enabled.wa-blur-text [data-testid="msg-container"] div:has([data-testid="image-thumb"]) div:has(>span[data-testid="image-caption selectable-text"]):hover,
+.wa-privacy-enabled.wa-blur-text div[class*="copyable-text"]>div:has(>span[class*="copyable-text"][data-testid="selectable-text"]):hover,
+.wa-privacy-enabled.wa-blur-text div:has(>span[data-testid="group-notification-context-card-description selectable-text"]):hover,
+.wa-privacy-enabled.wa-blur-text div:has(>[data-testid="group-info-drawer-description-title-input-read-only selectable-text"]):hover,
+.wa-privacy-enabled.wa-blur-text [data-testid="group_info_created_by_wrapper"]:hover {
   filter: blur(0px) !important;
 }
 
-
 /* --- 4.2 Media Chats (.wa-blur-media) --- */
-/* Targets specific MEDIA ELEMENTS directly — not the whole bubble.
-   In a text+image message, only the IMAGE is blurred by this toggle.
-   The caption text is left unblurred unless the Text toggle is also ON. */
-
 /* A. Image thumbnails */
-.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="image-thumb"],
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="media-url-provider"],
 /* B. Video thumbnails */
-.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="video-thumb"],
-/* C. Stickers — broad selectors to cover all WhatsApp sticker rendering methods */
-.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="sticker-url-provider"],
-.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid*="sticker"],
-.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [class*="sticker"],
-/* D. Audio / voice notes */
-.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid*="voice-note"],
-.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="audio-player"],
-/* E. Documents / files */
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="video-content"],
+/* C. Link Previews */
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="link-preview-container"],
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="quoted-message"] div:has([data-testid="msgImage"]),
+/* D. Stickers — broad selectors to cover all WhatsApp sticker rendering methods */
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="sticker-container"],
+/* E. Audio / voice notes */
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] div:has(>div>button>[data-testid="audio-download"]),
+/* F. Documents / files */
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="document-thumb"],
-.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid*="document"] {
+.wa-privacy-enabled.wa-blur-media [data-testid="media-gallery"]>[data-testid="media-canvas"] {
   filter: blur(var(--wa-blur-amount)) !important;
   transition: var(--wa-blur-transition) !important;
   will-change: filter;
@@ -390,32 +189,24 @@
 }
 
 /* Reveal all media elements on hover of the whole bubble */
-.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"]:hover [data-testid="image-thumb"],
-.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"]:hover [data-testid="video-thumb"],
-.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"]:hover [data-testid="sticker-url-provider"],
-.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"]:hover [data-testid*="sticker"],
-.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"]:hover [class*="sticker"],
-.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"]:hover [data-testid*="voice-note"],
-.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"]:hover [data-testid="audio-player"],
-.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"]:hover [data-testid="document-thumb"],
-.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"]:hover [data-testid*="document"] {
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="media-url-provider"]:hover,
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="video-content"]:hover,
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="link-preview-container"]:hover,
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="quoted-message"] div:has([data-testid="msgImage"]):hover,
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="sticker-container"]:hover,
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] div:has(>div>button>[data-testid="audio-download"]):hover,
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="document-thumb"]:hover,
+.wa-privacy-enabled.wa-blur-media [data-testid="media-gallery"]>[data-testid="media-canvas"]:hover {
   filter: blur(0px) !important;
 }
 
-
 /* --- 4.3 Compose / Input Area (.wa-blur-input) --- */
-
-/* Apply variable-driven opacity to the entire footer bar */
-.wa-privacy-enabled.wa-blur-input #main footer,
-.wa-privacy-enabled.wa-blur-input [data-testid="conversation-panel-wrapper"] footer {
+.wa-privacy-enabled.wa-blur-input [data-testid="conversation-panel-wrapper"] footer:has([data-testid="compose-box"]) {
   opacity: var(--wa-input-opacity) !important;
   transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
   will-change: opacity;
 }
 
-/* Reveal fully on hover only — stays transparent while typing (focus-within intentionally excluded) */
-.wa-privacy-enabled.wa-blur-input #main footer:hover,
-.wa-privacy-enabled.wa-blur-input [data-testid="conversation-panel-wrapper"] footer:hover {
+.wa-privacy-enabled.wa-blur-input [data-testid="conversation-panel-wrapper"] footer:has([data-testid="compose-box"]):hover {
   opacity: 1 !important;
 }
-

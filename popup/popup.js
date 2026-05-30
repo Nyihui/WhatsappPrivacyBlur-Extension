@@ -5,7 +5,7 @@
 // Default settings object
 const DEFAULT_SETTINGS = {
   enabled: true,
-  blurAmount: 8,
+  blurAmount: 3,
   blurAvatars: true,
   blurNames: true,
   blurPreviews: true,
@@ -77,7 +77,7 @@ function getSettingsFromUI() {
  */
 function saveAndSyncSettings() {
   const settings = getSettingsFromUI();
-  
+
   // Update dashboard visuals
   updateDashboardState(settings.enabled);
   blurValDisplay.textContent = `${settings.blurAmount}px`;
@@ -89,10 +89,10 @@ function saveAndSyncSettings() {
       tabs.forEach(tab => {
         // Send updates only to tabs matching our target URLs to avoid unnecessary overhead
         if (tab.url && (
-          tab.url.includes("web.whatsapp.com") || 
-          tab.url.includes("Chats.htm") || 
+          tab.url.includes("web.whatsapp.com") ||
+          tab.url.includes("Chats.htm") ||
           tab.url.includes("Home.htm") ||
-          tab.url.includes("Chats.html") || 
+          tab.url.includes("Chats.html") ||
           tab.url.includes("Home.html")
         )) {
           chrome.tabs.sendMessage(tab.id, {
@@ -119,7 +119,7 @@ function initDashboard() {
     enabledToggle.checked = settings.enabled;
     blurSlider.value = settings.blurAmount;
     blurValDisplay.textContent = `${settings.blurAmount}px`;
-    
+
     toggleAvatars.checked = settings.blurAvatars;
     toggleNames.checked = settings.blurNames;
     togglePreviews.checked = settings.blurPreviews;
@@ -164,3 +164,16 @@ blurSlider.addEventListener('change', saveAndSyncSettings);
 
 // Load settings on startup
 document.addEventListener('DOMContentLoaded', initDashboard);
+
+// Sync popup UI in real-time if settings are changed externally (e.g., via keyboard shortcut in content script)
+chrome.storage.onChanged.addListener((changes, areaName) => {
+  if (areaName === 'local') {
+    chrome.storage.local.get(DEFAULT_SETTINGS, (settings) => {
+      if (enabledToggle && enabledToggle.checked !== settings.enabled) {
+        enabledToggle.checked = settings.enabled;
+        updateDashboardState(settings.enabled);
+      }
+    });
+  }
+});
+
