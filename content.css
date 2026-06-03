@@ -34,7 +34,7 @@
 .wa-privacy-enabled.wa-blur-avatars [data-testid="group-info-drawer-body"] button[data-testid="group-pic-picker"],
 /* E. Chats */
 .wa-privacy-enabled.wa-blur-avatars [data-testid="group-notification-context-card-photo"],
-.wa-privacy-enabled.wa-blur-avatars div[data-testid="group-chat-profile-picture"]:has(img),
+.wa-privacy-enabled.wa-blur-avatars div[data-testid="group-chat-profile-picture"],
 .wa-privacy-enabled.wa-blur-avatars [data-testid="msg-container"]:has([data-testid="ptt-status"]) div:has(>img[alt=""]),
 /* F. Profile Picture On Sidebar */
 .wa-privacy-enabled.wa-blur-avatars header[data-testid="chatlist-header"] button[type="button"][aria-label="You"] {
@@ -54,7 +54,7 @@
 .wa-privacy-enabled.wa-blur-avatars div[data-testid="chat-info-drawer"] div:has(img[src])[aria-label="View photo"]:hover,
 .wa-privacy-enabled.wa-blur-avatars [data-testid="group-info-drawer-body"] button[data-testid="group-pic-picker"]:hover,
 .wa-privacy-enabled.wa-blur-avatars [data-testid="group-notification-context-card-photo"]:hover,
-.wa-privacy-enabled.wa-blur-avatars div[data-testid="group-chat-profile-picture"]:has(img):hover,
+.wa-privacy-enabled.wa-blur-avatars div[data-testid="group-chat-profile-picture"]:hover,
 .wa-privacy-enabled.wa-blur-avatars [data-testid="msg-container"]:has([data-testid="ptt-status"]) div:has(>img[alt=""]):hover,
 .wa-privacy-enabled.wa-blur-avatars header[data-testid="chatlist-header"] button[type="button"][aria-label="You"]:hover {
   filter: blur(0px) !important;
@@ -75,9 +75,11 @@
 .wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-title"]:has([data-testid="cell-frame-secondary"]),
 /* C. Detail Conversation Head */
 .wa-privacy-enabled.wa-blur-names [data-testid="conversation-info-header"],
-/* D. Status Name */
+/* D. Phone Number details on Pop up list Group Member */
+.wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-secondary"] [role="gridcell"],
+/* E. Status Name */
 .wa-privacy-enabled.wa-blur-names [data-testid="status-row-cell"] [data-testid="cell-frame-title"]:has(span),
-/* E. Detail Sidebar */
+/* F. Detail Sidebar */
 .wa-privacy-enabled.wa-blur-names span[data-testid="contact-info-subtitle selectable-text"],
 .wa-privacy-enabled.wa-blur-names div:has([class=""])>span:not([title])[class*="copyable-text"][dir="auto"][data-testid="selectable-text"],
 .wa-privacy-enabled.wa-blur-names div:has(>span[data-testid="group-info-drawer-subject-input-read-only selectable-text"]),
@@ -85,7 +87,7 @@
 .wa-privacy-enabled.wa-blur-names [data-testid="group-info-participants-section"] [data-testid="cell-frame-secondary"] [role="gridcell"],
 .wa-privacy-enabled.wa-blur-names [data-testid="li-block"]>div>div:last-child,
 .wa-privacy-enabled.wa-blur-names [data-testid="li-report-spam"][aria-label="Report "]>div>div:last-child,
-/* F. Group Chat */
+/* G. Group Chat */
 .wa-privacy-enabled.wa-blur-names div[role]:has(>span[data-testid="author"][dir="auto"]) {
   filter: blur(var(--wa-blur-amount)) !important;
   transition: var(--wa-blur-transition) !important;
@@ -97,6 +99,7 @@
 .wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-title"]:has([dir="auto"]):hover,
 .wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-title"]:has([data-testid="cell-frame-secondary"]):hover,
 .wa-privacy-enabled.wa-blur-names [data-testid="conversation-info-header"]:hover,
+.wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-secondary"] [role="gridcell"]:hover,
 .wa-privacy-enabled.wa-blur-names [data-testid="status-row-cell"] [data-testid="cell-frame-title"]:has(span):hover,
 .wa-privacy-enabled.wa-blur-names span[data-testid="contact-info-subtitle selectable-text"]:hover,
 .wa-privacy-enabled.wa-blur-names div:has([class=""])>span:not([title])[class*="copyable-text"][dir="auto"][data-testid="selectable-text"]:hover,
@@ -145,6 +148,8 @@
 .wa-privacy-enabled.wa-blur-text div:has(>span[class*="quoted-mention"]),
 .wa-privacy-enabled.wa-blur-text [data-testid="media-viewer-modal"] [data-testid="media-caption"],
 .wa-privacy-enabled.wa-blur-text [data-testid="msg-container"] div:has([data-testid="image-thumb"]) div:has(>span[data-testid="image-caption selectable-text"]),
+.wa-privacy-enabled.wa-blur-text [data-testid="msg-container"] div:has([data-testid="video-content"]) div:has(>span[data-testid="video-caption selectable-text"]),
+.wa-privacy-enabled.wa-blur-text [data-testid="msg-container"] div:has([data-testid="document-thumb"]) div:has(>span[data-testid="document-caption selectable-text"]),
 .wa-privacy-enabled.wa-blur-text div[class*="copyable-text"]>div:has(>span[class*="copyable-text"][data-testid="selectable-text"]),
 .wa-privacy-enabled.wa-blur-text div:has(>span[data-testid="group-notification-context-card-description selectable-text"]),
 .wa-privacy-enabled.wa-blur-text div:has(>[data-testid="group-info-drawer-description-title-input-read-only selectable-text"]),
@@ -162,6 +167,8 @@
 .wa-privacy-enabled.wa-blur-text div:has(>span[class*="quoted-mention"]):hover,
 .wa-privacy-enabled.wa-blur-text [data-testid="media-viewer-modal"] [data-testid="media-caption"]:hover,
 .wa-privacy-enabled.wa-blur-text [data-testid="msg-container"] div:has([data-testid="image-thumb"]) div:has(>span[data-testid="image-caption selectable-text"]):hover,
+.wa-privacy-enabled.wa-blur-text [data-testid="msg-container"] div:has([data-testid="video-content"]) div:has(>span[data-testid="video-caption selectable-text"]):hover,
+.wa-privacy-enabled.wa-blur-text [data-testid="msg-container"] div:has([data-testid="document-thumb"]) div:has(>span[data-testid="document-caption selectable-text"]):hover,
 .wa-privacy-enabled.wa-blur-text div[class*="copyable-text"]>div:has(>span[class*="copyable-text"][data-testid="selectable-text"]):hover,
 .wa-privacy-enabled.wa-blur-text div:has(>span[data-testid="group-notification-context-card-description selectable-text"]):hover,
 .wa-privacy-enabled.wa-blur-text div:has(>[data-testid="group-info-drawer-description-title-input-read-only selectable-text"]):hover,
@@ -172,6 +179,7 @@
 /* --- 4.2 Media Chats (.wa-blur-media) --- */
 /* A. Image thumbnails */
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="media-url-provider"],
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] div[style*="background-image"],
 /* B. Video thumbnails */
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="video-content"],
 /* C. Link Previews */
@@ -209,6 +217,7 @@
 
 /* Reveal all media elements on hover of the whole bubble */
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="media-url-provider"]:hover,
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] div[style*="background-image"]:hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="video-content"]:hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="link-preview-container"]:hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="quoted-message"] div:has([data-testid="msgImage"]):hover,
@@ -217,7 +226,6 @@
 .wa-privacy-enabled.wa-blur-media [data-testid="media-gallery"]>[data-testid="media-canvas"]:hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="media-canvas-img"]:hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="sticker-container"]:hover,
-.wa-privacy-enabled.wa-blur-media [data-testid="media-zoomable"] [data-testid="media-image"]:hover,
 .wa-privacy-enabled.wa-blur-media [aria-label="Video player"]:hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="media-video"]:hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="media-zoomable"] [data-testid="media-image"]:hover {
