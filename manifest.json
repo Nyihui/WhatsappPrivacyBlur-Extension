@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "WhatsApp Privacy Blur",
-  "version": "1.1",
+  "version": "1.2",
   "author": "Nyihui",
   "description": "Premium real-time privacy filter for WhatsApp Web. Adds custom hover-to-reveal blur layers over names, numbers, profile pictures, previews, and chat bubbles.",
   "permissions": [
@@ -20,14 +20,14 @@
     }
   },
   "icons": {
-    "16": "icons/logo.svg",
-    "32": "icons/logo.svg",
-    "48": "icons/logo.svg",
-    "128": "icons/logo.svg"
+    "16": "icons/logo-16.png",
+    "32": "icons/logo-32.png",
+    "48": "icons/logo-48.png",
+    "128": "icons/logo-128.png"
   },
   "action": {
     "default_popup": "popup/popup.html",
-    "default_icon": "icons/logo.svg",
+    "default_icon": "icons/logo-32.png",
     "default_title": "WhatsApp Privacy Blur"
   },
   "content_scripts": [

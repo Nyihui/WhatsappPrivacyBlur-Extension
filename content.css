@@ -4,7 +4,7 @@
 
 :root {
   --wa-blur-amount: var(--wa-blur-amount);
-  --wa-blur-transition: filter 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --wa-blur-transition: filter 0.1s cubic-bezier(0.4, 0, 0.2, 1);
   --wa-avatar-blur: var(--wa-blur-amount);
   --wa-input-opacity: var(--wa-input-opacity);
 }
@@ -175,14 +175,31 @@
 /* C. Link Previews */
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="link-preview-container"],
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="quoted-message"] div:has([data-testid="msgImage"]),
-/* D. Stickers — broad selectors to cover all WhatsApp sticker rendering methods */
-.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="sticker-container"],
-/* E. Audio / voice notes */
+/* D. Audio / voice notes */
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] div:has(>div>button>[data-testid="audio-download"]),
-/* F. Documents / files */
+/* E. Documents / files */
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="document-thumb"],
-.wa-privacy-enabled.wa-blur-media [data-testid="media-gallery"]>[data-testid="media-canvas"] {
+.wa-privacy-enabled.wa-blur-media [data-testid="media-gallery"]>[data-testid="media-canvas"],
+.wa-privacy-enabled.wa-blur-media [data-testid="media-canvas-img"] {
   filter: blur(var(--wa-blur-amount)) !important;
+  transition: var(--wa-blur-transition) !important;
+  will-change: filter;
+  transform: translateZ(0);
+}
+
+/* F. Stickers — broad selectors to cover all WhatsApp sticker rendering methods */
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="sticker-container"] {
+  filter: blur(calc(var(--wa-blur-amount) * 2)) !important;
+  transition: var(--wa-blur-transition) !important;
+  will-change: filter;
+  transform: translateZ(0);
+}
+
+/* G. Zoomable Image Fullscreen */
+.wa-privacy-enabled.wa-blur-media [aria-label="Video player"],
+.wa-privacy-enabled.wa-blur-media [data-testid="media-video"],
+.wa-privacy-enabled.wa-blur-media [data-testid="media-zoomable"] [data-testid="media-image"] {
+  filter: blur(calc(var(--wa-blur-amount) * 5)) !important;
   transition: var(--wa-blur-transition) !important;
   will-change: filter;
   transform: translateZ(0);
@@ -193,10 +210,15 @@
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="video-content"]:hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="link-preview-container"]:hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="quoted-message"] div:has([data-testid="msgImage"]):hover,
-.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="sticker-container"]:hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] div:has(>div>button>[data-testid="audio-download"]):hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="document-thumb"]:hover,
-.wa-privacy-enabled.wa-blur-media [data-testid="media-gallery"]>[data-testid="media-canvas"]:hover {
+.wa-privacy-enabled.wa-blur-media [data-testid="media-gallery"]>[data-testid="media-canvas"]:hover,
+.wa-privacy-enabled.wa-blur-media [data-testid="media-canvas-img"]:hover,
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="sticker-container"]:hover,
+.wa-privacy-enabled.wa-blur-media [data-testid="media-zoomable"] [data-testid="media-image"]:hover,
+.wa-privacy-enabled.wa-blur-media [aria-label="Video player"]:hover,
+.wa-privacy-enabled.wa-blur-media [data-testid="media-video"]:hover,
+.wa-privacy-enabled.wa-blur-media [data-testid="media-zoomable"] [data-testid="media-image"]:hover {
   filter: blur(0px) !important;
 }
 
