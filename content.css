@@ -76,7 +76,7 @@
 /* C. Detail Conversation Head */
 .wa-privacy-enabled.wa-blur-names [data-testid="conversation-info-header"],
 /* D. Phone Number details on Pop up list Group Member */
-.wa-privacy-enabled.wa-blur-names [data-testid="cell-frame-secondary"] [role="gridcell"],
+.wa-privacy-enabled.wa-blur-names [data-testid="contacts-modal"] [data-testid="cell-frame-secondary"] [role="gridcell"],
 /* E. Status Name */
 .wa-privacy-enabled.wa-blur-names [data-testid="status-row-cell"] [data-testid="cell-frame-title"]:has(span),
 /* F. Detail Sidebar */
