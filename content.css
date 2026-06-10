@@ -153,6 +153,7 @@
 .wa-privacy-enabled.wa-blur-text div[class*="copyable-text"]>div:has(>span[class*="copyable-text"][data-testid="selectable-text"]),
 .wa-privacy-enabled.wa-blur-text div:has(>span[data-testid="group-notification-context-card-description selectable-text"]),
 .wa-privacy-enabled.wa-blur-text div:has(>[data-testid="group-info-drawer-description-title-input-read-only selectable-text"]),
+.wa-privacy-enabled.wa-blur-text div:has(>div[role="button"][aria-label="Close"])>div:nth-child(2)>span,
 .wa-privacy-enabled.wa-blur-text [data-testid="group_info_created_by_wrapper"] {
   filter: blur(var(--wa-blur-amount)) !important;
   transition: var(--wa-blur-transition) !important;
@@ -172,6 +173,7 @@
 .wa-privacy-enabled.wa-blur-text div[class*="copyable-text"]>div:has(>span[class*="copyable-text"][data-testid="selectable-text"]):hover,
 .wa-privacy-enabled.wa-blur-text div:has(>span[data-testid="group-notification-context-card-description selectable-text"]):hover,
 .wa-privacy-enabled.wa-blur-text div:has(>[data-testid="group-info-drawer-description-title-input-read-only selectable-text"]):hover,
+.wa-privacy-enabled.wa-blur-text div:has(>div[role="button"][aria-label="Close"])>div:nth-child(2)>span:hover,
 .wa-privacy-enabled.wa-blur-text [data-testid="group_info_created_by_wrapper"]:hover {
   filter: blur(0px) !important;
 }
@@ -180,6 +182,7 @@
 /* A. Image thumbnails */
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="media-url-provider"],
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] div[style*="background-image"],
+.wa-privacy-enabled.wa-blur-media [role="tab"][aria-label*="item"],
 /* B. Video thumbnails */
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="video-content"],
 /* C. Link Previews */
@@ -189,6 +192,7 @@
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] div:has(>div>button>[data-testid="audio-download"]),
 /* E. Documents / files */
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="document-thumb"],
+.wa-privacy-enabled.wa-blur-media img[alt*=".pdf"],
 .wa-privacy-enabled.wa-blur-media [data-testid="media-gallery"]>[data-testid="media-canvas"],
 .wa-privacy-enabled.wa-blur-media [data-testid="media-canvas-img"] {
   filter: blur(var(--wa-blur-amount)) !important;
@@ -208,6 +212,7 @@
 /* G. Zoomable Image Fullscreen */
 .wa-privacy-enabled.wa-blur-media [aria-label="Video player"],
 .wa-privacy-enabled.wa-blur-media [data-testid="media-video"],
+.wa-privacy-enabled.wa-blur-media [data-testid="media-editor-canvas"],
 .wa-privacy-enabled.wa-blur-media [data-testid="media-zoomable"] [data-testid="media-image"] {
   filter: blur(calc(var(--wa-blur-amount) * 5)) !important;
   transition: var(--wa-blur-transition) !important;
@@ -218,12 +223,15 @@
 /* Reveal all media elements on hover of the whole bubble */
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="media-url-provider"]:hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] div[style*="background-image"]:hover,
+.wa-privacy-enabled.wa-blur-media [role="tab"][aria-label*="item"]:hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="video-content"]:hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="link-preview-container"]:hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="quoted-message"] div:has([data-testid="msgImage"]):hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] div:has(>div>button>[data-testid="audio-download"]):hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="document-thumb"]:hover,
+.wa-privacy-enabled.wa-blur-media img[alt*=".pdf"]:hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="media-gallery"]>[data-testid="media-canvas"]:hover,
+.wa-privacy-enabled.wa-blur-media [data-testid="media-editor-canvas"]:hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="media-canvas-img"]:hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="sticker-container"]:hover,
 .wa-privacy-enabled.wa-blur-media [aria-label="Video player"]:hover,
@@ -233,12 +241,14 @@
 }
 
 /* --- 4.3 Compose / Input Area (.wa-blur-input) --- */
-.wa-privacy-enabled.wa-blur-input [data-testid="conversation-panel-wrapper"] footer:has([data-testid="compose-box"]) {
+/* .wa-privacy-enabled.wa-blur-input [data-testid="conversation-panel-wrapper"] footer:has([data-testid="compose-box"]), */
+.wa-privacy-enabled.wa-blur-input div:has(>div[class*="lexical-rich-text-input"]) {
   opacity: var(--wa-input-opacity) !important;
   transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
   will-change: opacity;
 }
 
-.wa-privacy-enabled.wa-blur-input [data-testid="conversation-panel-wrapper"] footer:has([data-testid="compose-box"]):hover {
+/* .wa-privacy-enabled.wa-blur-input [data-testid="conversation-panel-wrapper"] footer:has([data-testid="compose-box"]):hover, */
+.wa-privacy-enabled.wa-blur-input div:has(>div[class*="lexical-rich-text-input"]):hover {
   opacity: 1 !important;
 }
