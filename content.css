@@ -202,7 +202,8 @@
 }
 
 /* F. Stickers — broad selectors to cover all WhatsApp sticker rendering methods */
-.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="sticker-container"] {
+.wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="sticker-container"],
+.wa-privacy-enabled.wa-blur-media [data-testid="sticker-container"] {
   filter: blur(calc(var(--wa-blur-amount) * 2)) !important;
   transition: var(--wa-blur-transition) !important;
   will-change: filter;
@@ -234,6 +235,7 @@
 .wa-privacy-enabled.wa-blur-media [data-testid="media-editor-canvas"]:hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="media-canvas-img"]:hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="sticker-container"]:hover,
+.wa-privacy-enabled.wa-blur-media [data-testid="sticker-container"]:hover,
 .wa-privacy-enabled.wa-blur-media [aria-label="Video player"]:hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="media-video"]:hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="media-zoomable"] [data-testid="media-image"]:hover {
