@@ -21,11 +21,12 @@
 
 /* --- 1.1 Blur Selectors for Profile Pictures --- */
 /* A. Main Screen */
-.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-frame-container"] div:has(span[data-icon*="default-"]),
+.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-frame-container"] div:has(span[data-testid*="default-"]),
 .wa-privacy-enabled.wa-blur-avatars div[data-testid="message-yourself-row"] div:has(img[alt=""]),
 .wa-privacy-enabled.wa-blur-avatars div[data-testid="cell-frame-container"] div:has(img[alt=""]),
 /* B. Detail Conversation Head */
 .wa-privacy-enabled.wa-blur-avatars [data-testid="conversation-header"] img[alt=""],
+.wa-privacy-enabled.wa-blur-avatars [data-testid="conversation-header"] [data-testid*="default-"],
 /* C. Status */
 .wa-privacy-enabled.wa-blur-avatars [data-testid="status-thumbnail"],
 .wa-privacy-enabled.wa-blur-avatars [data-testid="status-header-add-status"] img,
@@ -45,10 +46,11 @@
 }
 
 /* --- 1.2 Reveal Profile Pictures on Hover --- */
-.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-frame-container"] div:has(span[data-icon*="default-"]):hover,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="cell-frame-container"] div:has(span[data-testid*="default-"]):hover,
 .wa-privacy-enabled.wa-blur-avatars div[data-testid="message-yourself-row"] div:has(img[alt=""]):hover,
 .wa-privacy-enabled.wa-blur-avatars div[data-testid="cell-frame-container"] div:has(img[alt=""]):hover,
 .wa-privacy-enabled.wa-blur-avatars [data-testid="conversation-header"] img[alt=""]:hover,
+.wa-privacy-enabled.wa-blur-avatars [data-testid="conversation-header"] [data-testid*="default-"]:hover,
 .wa-privacy-enabled.wa-blur-avatars [data-testid="status-thumbnail"]:hover,
 .wa-privacy-enabled.wa-blur-avatars [data-testid="status-header-add-status"] img:hover,
 .wa-privacy-enabled.wa-blur-avatars div[data-testid="chat-info-drawer"] div:has(img[src])[aria-label="View photo"]:hover,
@@ -182,7 +184,7 @@
 /* A. Image thumbnails */
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="media-url-provider"],
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] div[style*="background-image"],
-.wa-privacy-enabled.wa-blur-media [role="tab"][aria-label*="item"],
+.wa-privacy-enabled.wa-blur-media [role="tab"][aria-label*="item"]:first-child,
 /* B. Video thumbnails */
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="video-content"],
 /* C. Link Previews */
@@ -224,7 +226,7 @@
 /* Reveal all media elements on hover of the whole bubble */
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="media-url-provider"]:hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] div[style*="background-image"]:hover,
-.wa-privacy-enabled.wa-blur-media [role="tab"][aria-label*="item"]:hover,
+.wa-privacy-enabled.wa-blur-media [role="tab"][aria-label*="item"]:first-child:hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="video-content"]:hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="link-preview-container"]:hover,
 .wa-privacy-enabled.wa-blur-media [data-testid="msg-container"] [data-testid="quoted-message"] div:has([data-testid="msgImage"]):hover,
