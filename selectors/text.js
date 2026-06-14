@@ -11,6 +11,7 @@ window.WA_BLUR_RULES.push({
   blurMultiplier: 1,
   targets: [
     '[data-testid="conversation-panel-wrapper"] [data-testid="conversation-panel-messages"] [data-testid="msg-container"] div:has( > span[data-testid*="selectable-text"])',
+    '[data-testid="conversation-panel-wrapper"] [data-testid="conversation-panel-messages"] [data-testid="msg-container"] div:has( > div > [data-testid="recalled"])',
     '[data-testid="conversation-panel-wrapper"] [data-testid="conversation-panel-messages"] [data-testid="msg-container"] div:has( > div[class*="copyable-text"]):has(p)',
     '[data-testid="conversation-panel-wrapper"] [data-testid="conversation-panel-messages"] [data-testid="msg-container"] div:has( > div[data-testid*="selectable-text"]):has(img)',
     '[data-testid="conversation-panel-wrapper"] [data-testid="conversation-panel-messages"] [data-testid="msg-notification-container"] [data-testid="group-notification-context-card"] [data-testid="group-notification-context-card-title"]',

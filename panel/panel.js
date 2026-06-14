@@ -21,6 +21,8 @@
     blurInput: true,
     noTransition: false,
     inputOpacity: 30,
+    unblurLastN: false,
+    unblurLastNCount: 3,
   };
 
   const PANEL_W = 320;  // px — matches #wa-panel width in css.js
@@ -39,6 +41,7 @@
     { id: 'fab-toggle-media-preview', key: 'blurMediaPreview' },
     { id: 'fab-toggle-media-gallery', key: 'blurMediaGallery' },
     { id: 'fab-toggle-input', key: 'blurInput' },
+    { id: 'fab-toggle-unblur-last-n', key: 'unblurLastN' },
     { id: 'fab-toggle-no-transition', key: 'noTransition' },
   ];
 
@@ -67,6 +70,19 @@
     shadow.getElementById('fab-input-opacity-val').textContent = `${inputOpacity}%`;
     const inputEnabled = settings.blurInput ?? DEFAULT_SETTINGS.blurInput;
     shadow.getElementById('fab-input-opacity-panel').style.display = inputEnabled ? '' : 'none';
+
+    const unblurLastNCount = settings.unblurLastNCount ?? DEFAULT_SETTINGS.unblurLastNCount;
+    shadow.getElementById('fab-unblur-last-n-slider').value = unblurLastNCount;
+    shadow.getElementById('fab-unblur-last-n-val').textContent = unblurLastNCount;
+    const unblurLastNEnabled = settings.unblurLastN ?? DEFAULT_SETTINGS.unblurLastN;
+    shadow.getElementById('fab-unblur-last-n-panel').style.display = unblurLastNEnabled ? '' : 'none';
+  }
+
+  function checkRTL() {
+    return document.documentElement.dir === 'rtl' ||
+           document.body?.dir === 'rtl' ||
+           (document.body && window.getComputedStyle(document.body).direction === 'rtl') ||
+           window.getComputedStyle(document.documentElement).direction === 'rtl';
   }
 
   /**
@@ -80,10 +96,13 @@
 
     const anchorTop = anchorRect.top;
     const anchorBottom = anchorRect.bottom;
+    const anchorLeft = anchorRect.left;
     const anchorRight = anchorRect.right;
 
-    // Horizontal: align panel right edge with anchor right edge, clamp
-    let left = anchorRight - PANEL_W;
+    const isRTL = checkRTL();
+
+    // Horizontal positioning: align right edge in LTR, left edge in RTL, then clamp
+    let left = isRTL ? anchorLeft : anchorRight - PANEL_W;
     left = Math.max(EDGE_MARGIN, Math.min(left, vw - PANEL_W - EDGE_MARGIN));
     panel.style.left = `${left}px`;
     panel.style.right = '';
@@ -97,13 +116,13 @@
       panel.style.bottom = `${vh - anchorTop + PANEL_GAP}px`;
       panel.style.top = '';
       panel.style.maxHeight = `${Math.min(spaceAbove, vh * 0.8)}px`;
-      panel.style.transformOrigin = 'bottom right';
+      panel.style.transformOrigin = isRTL ? 'bottom left' : 'bottom right';
     } else {
       // Show BELOW anchor
       panel.style.top = `${anchorBottom + PANEL_GAP}px`;
       panel.style.bottom = '';
       panel.style.maxHeight = `${Math.min(spaceBelow, vh * 0.8)}px`;
-      panel.style.transformOrigin = 'top right';
+      panel.style.transformOrigin = isRTL ? 'top left' : 'top right';
     }
   }
 
@@ -223,6 +242,8 @@
         chrome.storage.local.set({ [key]: this.checked });
         if (key === 'blurInput') {
           shadow.getElementById('fab-input-opacity-panel').style.display = this.checked ? '' : 'none';
+        } else if (key === 'unblurLastN') {
+          shadow.getElementById('fab-unblur-last-n-panel').style.display = this.checked ? '' : 'none';
         }
       });
     }
@@ -232,6 +253,8 @@
     const blurValEl = shadow.getElementById('fab-blur-val');
     const opacitySlider = shadow.getElementById('fab-input-opacity-slider');
     const opacityValEl = shadow.getElementById('fab-input-opacity-val');
+    const unblurLastNSlider = shadow.getElementById('fab-unblur-last-n-slider');
+    const unblurLastNValEl = shadow.getElementById('fab-unblur-last-n-val');
 
     blurSlider.addEventListener('input', function () {
       blurValEl.textContent = `${this.value}px`;
@@ -241,6 +264,11 @@
     opacitySlider.addEventListener('input', function () {
       opacityValEl.textContent = `${this.value}%`;
       chrome.storage.local.set({ inputOpacity: parseInt(this.value, 10) });
+    });
+
+    unblurLastNSlider.addEventListener('input', function () {
+      unblurLastNValEl.textContent = this.value;
+      chrome.storage.local.set({ unblurLastNCount: parseInt(this.value, 10) });
     });
 
     // ---- Reset Button ---------------------------------------------------------
@@ -337,7 +365,6 @@
       const clbBtn = document.createElement('button');
       clbBtn.id = CLB_ID;
       clbBtn.type = 'button';
-      clbBtn.title = 'WhatsApp Privacy Blur';               // native hover tooltip
       clbBtn.setAttribute('aria-label', 'WhatsApp Privacy Blur');
 
       setSafeSVG(clbBtn, isOpen ? SVG_ACTIVE : SVG_INACTIVE);
@@ -351,12 +378,78 @@
         'flex-shrink:0',
       ].join(';');
 
+      // Custom tooltip mimicking native WhatsApp instantly-appearing tooltip
+      let tooltip = document.getElementById('wa-privacy-tooltip');
+      if (!tooltip) {
+        tooltip = document.createElement('div');
+        tooltip.id = 'wa-privacy-tooltip';
+        tooltip.textContent = 'WhatsApp Privacy Blur';
+        tooltip.style.cssText = [
+          'position:fixed',
+          'padding:4px 8px',
+          'border-radius:4px',
+          'font-size:0.75rem',
+          'line-height:1rem',
+          'font-weight:400',
+          'white-space:nowrap',
+          'pointer-events:none',
+          'z-index:2147483647',
+          'opacity:0',
+          'display:flex',
+          'align-items:center',
+          'transform:translateY(-50%) scale(0.95)',
+          'transform-origin:left center',
+          'transition:transform 0.1s cubic-bezier(0, 0, 0.2, 1), opacity 0.1s cubic-bezier(0, 0, 0.2, 1)',
+          'font-family:inherit'
+        ].join(';');
+        document.body.appendChild(tooltip);
+      }
+
       clbBtn.addEventListener('mouseenter', () => {
-        clbBtn.style.background = 'var(--interactive-temporary,rgba(134,150,160,.12))';
+        const isDark = document.body.classList.contains('dark');
+        const isRTL = checkRTL();
+        // Background stacking
+        if (isDark) {
+          clbBtn.style.background = 'linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)) rgba(255, 255, 255, 0.1)';
+        } else {
+          clbBtn.style.background = 'linear-gradient(rgba(194, 189, 184, 0.1), rgba(194, 189, 184, 0.1)) rgba(194, 189, 184, 0.15)';
+        }
+
+        // Show Tooltip to the RIGHT (LTR) or LEFT (RTL) of the button
+        const rect = clbBtn.getBoundingClientRect();
+        tooltip.style.top = `${rect.top + rect.height / 2}px`;
+        if (isRTL) {
+          tooltip.style.left = 'auto';
+          tooltip.style.right = `${window.innerWidth - rect.left + 5}px`;
+          tooltip.style.transformOrigin = 'right center';
+        } else {
+          tooltip.style.right = 'auto';
+          tooltip.style.left = `${rect.right + 5}px`;
+          tooltip.style.transformOrigin = 'left center';
+        }
+
+        if (isDark) {
+          // Exact Dark Mode colors provided
+          tooltip.style.background = '#EEEEEE';
+          tooltip.style.color = '#0A0A0A';
+          tooltip.style.boxShadow = '0 0 20px rgba(0,0,0,0.2), 0 1px rgba(0,0,0,0.04)';
+        } else {
+          // Light Mode fallback (will update when provided)
+          tooltip.style.background = '#EEEEEE';
+          tooltip.style.color = '#0A0A0A';
+          tooltip.style.boxShadow = '0 0 20px rgba(0,0,0,0.2), 0 1px rgba(0,0,0,0.04)';
+        }
+        tooltip.style.transform = 'translateY(-50%) scale(1)';
+        tooltip.style.opacity = '1';
       });
+
       clbBtn.addEventListener('mouseleave', () => {
         clbBtn.style.background = 'transparent';
+        // Hide Tooltip
+        tooltip.style.transform = 'translateY(-50%) scale(0.95)';
+        tooltip.style.opacity = '0';
       });
+
       clbBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         togglePanel(clbBtn.getBoundingClientRect());
@@ -365,7 +458,6 @@
       const clbWrapper = document.createElement('div');
       clbWrapper.style.cssText = 'display:flex;align-items:center;justify-content:center;';
       clbWrapper.appendChild(clbBtn);
-      // Insert ABOVE the Media button (before it in DOM order = above in the UI)
       navContainer.insertBefore(clbWrapper, mediaWrapper);
     }
 

@@ -16,6 +16,8 @@ const DEFAULT_SETTINGS = {
   blurInput: true,
   noTransition: false,
   inputOpacity: 30,
+  unblurLastN: false,
+  unblurLastNCount: 3,
 };
 
 /* --------------------------------------------------------------------------
@@ -43,12 +45,15 @@ function buildCSS(settings) {
       continue;
     }
 
+    // --- Special: Unblur Override (Injected once manually below loop) ---
+
+
     if (!isActive || !rule.targets || rule.targets.length === 0) continue;
 
     const scope = ROOT;
-    const scopedTargets = rule.targets.map(t => `${scope} ${t}`);
-    const blurSelectors = scopedTargets.join(',\n');
+    const scopedTargets = rule.targets.map(t => `${scope} ${t}:not(.wa-unblur-override):not(.wa-unblur-override *)`);
     const hoverSelectors = scopedTargets.map(t => `${t}:hover`).join(',\n');
+    const blurSelectors = scopedTargets.join(',\n');
 
     // --- Opacity mode (Text Input) ---
     if (rule.property === 'opacity') {
@@ -84,8 +89,8 @@ function buildCSS(settings) {
     // --- hoverParentTargets: blur a child, unblur when PARENT is hovered ---
     if (rule.hoverParentTargets && rule.hoverParentTargets.length > 0) {
       for (const { hoverParent, child } of rule.hoverParentTargets) {
-        const childBlur = `${scope} ${hoverParent} ${child}`;
-        const childHover = `${scope} ${hoverParent}:hover ${child}`;
+        const childBlur = `${scope} ${hoverParent}:not(.wa-unblur-override):not(.wa-unblur-override *) ${child}`;
+        const childHover = `${scope} ${hoverParent}:hover:not(.wa-unblur-override):not(.wa-unblur-override *) ${child}`;
         css += `
         ${childBlur} {
           filter: blur(${blurValue}) !important;
@@ -104,8 +109,8 @@ function buildCSS(settings) {
     if (rule.hoverHasTargets && rule.hoverHasTargets.length > 0) {
       for (const { ancestor, hoverTrigger, child } of rule.hoverHasTargets) {
         const childPart = child ? ` ${child}` : '';
-        const childBlur  = `${scope} ${ancestor}${childPart}`;
-        const childHover = `${scope} ${ancestor}:has(${hoverTrigger}:hover)${childPart}`;
+        const childBlur  = `${scope} ${ancestor}:not(.wa-unblur-override):not(.wa-unblur-override *)${childPart}`;
+        const childHover = `${scope} ${ancestor}:has(${hoverTrigger}:hover):not(.wa-unblur-override):not(.wa-unblur-override *)${childPart}`;
         css += `
         ${childBlur} {
           filter: blur(${blurValue}) !important;
@@ -158,7 +163,61 @@ function applySettings(settings) {
   // 3. Generate & inject dynamic stylesheet
   injectCSS(isEnabled ? buildCSS(settings) : '');
 
+  // 4. Manage DOM Observer for "Unblur Last N Messages"
+  manageUnblurObserver(settings);
+
   // console.log('[Privacy Blur] Applied settings:', settings);
+}
+
+// ---------------------------------------------------------------------------
+// DOM Polling: Unblur Last N Messages
+// ---------------------------------------------------------------------------
+let currentUnblurN = 0;
+let unblurInterval = null;
+
+function applyUnblurLastN() {
+  if (currentUnblurN <= 0) return;
+  const messages = document.querySelectorAll(`
+    [data-testid="conversation-panel-wrapper"] [data-testid="conversation-panel-messages"] [data-testid="msg-container"],
+    [data-testid="conversation-panel-wrapper"] [data-testid="conversation-panel-messages"] [data-id*="grouped-sticker"]
+  `);
+  
+  // Clean up existing overrides to avoid unnecessary DOM writes
+  messages.forEach(el => {
+    if (el.classList.contains('wa-unblur-override')) {
+       el.classList.remove('wa-unblur-override');
+    }
+  });
+
+  if (messages.length === 0) return;
+
+  const start = Math.max(0, messages.length - currentUnblurN);
+  for (let i = start; i < messages.length; i++) {
+    messages[i].classList.add('wa-unblur-override');
+  }
+}
+
+function manageUnblurObserver(settings) {
+  const isEnabled = settings.enabled ?? DEFAULT_SETTINGS.enabled;
+  const unblurLastN = settings.unblurLastN ?? DEFAULT_SETTINGS.unblurLastN;
+  const unblurLastNCount = settings.unblurLastNCount ?? DEFAULT_SETTINGS.unblurLastNCount;
+
+  currentUnblurN = (isEnabled && unblurLastN) ? unblurLastNCount : 0;
+
+  if (currentUnblurN > 0) {
+    applyUnblurLastN(); // Apply immediately
+    if (!unblurInterval) {
+      // Refresh every 500ms: lightweight targeted polling instead of a heavy MutationObserver
+      unblurInterval = setInterval(applyUnblurLastN, 500);
+    }
+  } else {
+    if (unblurInterval) {
+      clearInterval(unblurInterval);
+      unblurInterval = null;
+    }
+    // Cleanup overrides if toggled off
+    document.querySelectorAll('.wa-unblur-override').forEach(el => el.classList.remove('wa-unblur-override'));
+  }
 }
 
 // ---------------------------------------------------------------------------

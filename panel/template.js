@@ -96,6 +96,35 @@ window.WA_PANEL_HTML = `<div class="dashboard" id="wa-dashboard">
     ${_fabRow('fab-toggle-text-chats', 'Message Texts & Descriptions', 'Text bubbles, captions, system notes',
         '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="13" y2="13"/>')}
 
+    <div class="control-row control-row--expandable">
+      <div class="row-main">
+        <div class="row-left">
+          <div class="icon-box">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+            </svg>
+          </div>
+          <div class="row-text">
+            <span class="row-title">Unblur Recent Messages</span>
+            <!-- <span class="row-desc">Instantly read new messages</span> -->
+          </div>
+        </div>
+        <label class="switch row-switch">
+          <input type="checkbox" id="fab-toggle-unblur-last-n">
+          <span class="slider round"></span>
+        </label>
+      </div>
+      <div class="sub-slider" id="fab-unblur-last-n-panel" style="display:none">
+        <div class="sub-slider-header">
+          <span class="sub-slider-label">Last N Messages</span>
+          <span class="sub-slider-val" id="fab-unblur-last-n-val">3</span>
+        </div>
+        <input type="range" id="fab-unblur-last-n-slider" min="1" max="50" value="3"
+          class="range-slider sub-range-slider">
+      </div>
+    </div>
+
     ${_fabRow('fab-toggle-stickers', 'Stickers', 'Sticker bubbles in chat',
           '<path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>')}
 

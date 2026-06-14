@@ -13,8 +13,9 @@ window.WA_BLUR_RULES.push({
     //  Conversation Media
     '[data-testid="media-viewer-modal"] [data-testid="media-video"]',
     '[data-testid="media-viewer-modal"] [data-testid="media-zoomable"]',
+    '[data-testid="media-viewer-modal"] [data-testid="media-gif"]',
+    '[data-testid="drawer-middle"] [data-animate-attach-media="true"] > div > div > div',
   ],
-  //  Story Media + Submit Media — unblur only when a specific trigger is hovered (not the blurred element itself)
   hoverHasTargets: [
     {
       // Drawer Media: Blur the wrapper div (to prevent edge clipping), but only unblur when the inner image is hovered
@@ -22,10 +23,11 @@ window.WA_BLUR_RULES.push({
       hoverTrigger: '> img',
       child: ''
     },
+    //  Story Media + Submit Media — unblur only when a specific trigger is hovered (not the blurred element itself)
     {
       ancestor: '[data-testid="status-player-uie"]',
       hoverTrigger: '[style*="position: absolute"]',
-      child: ' > div > button > div[data-testid="status-video"]',
+      child: '> div > button > div[data-testid="status-video"]',
     },
     {
       ancestor: '[data-testid="drawer-middle"]',
